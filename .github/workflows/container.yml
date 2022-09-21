@@ -5,11 +5,11 @@ on:
         branches:
             - main
         paths:
-            - "allaps/container/**"
+            - "allapps/container/**"
 
 defaults:
     run:
-        working-directory: allaps/container
+        working-directory: allapps/container
 
 jobs:
     build:
