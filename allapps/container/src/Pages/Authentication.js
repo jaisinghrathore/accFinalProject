@@ -6,7 +6,7 @@ const Authentication = () => {
 
     useEffect(() => {
         mount(elementRef.current);
-    }, []);
+    });
 
     return (
         <>
