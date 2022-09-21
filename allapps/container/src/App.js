@@ -4,7 +4,7 @@ import Authentication from "./Pages/Authentication";
 const App = () => {
     return (
         <>
-            <h1>Container</h1>
+            <h1>Containerd</h1>
             <Authentication/>
         </>
     );
