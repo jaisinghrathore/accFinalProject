@@ -1,10 +1,11 @@
 import React from "react";
-import Login from "./pages/login/Login"
+import Login from "./pages/login/Login";
 
 const App = () => {
     return (
         <>
-            <Login/>
+            <h2>Children.</h2>
+            <Login />
         </>
     );
 };
