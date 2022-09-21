@@ -1,7 +1,12 @@
-import React from "react";
+import Authentication from "./Pages/Authentication";
 
 const App = () => {
-    return <div>App</div>;
+    return (
+        <>
+            <h1>jai d</h1>
+            <Authentication />
+        </>
+    );
 };
 
 export default App;

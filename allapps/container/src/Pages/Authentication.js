@@ -1,18 +1,9 @@
-import React, { useEffect, useRef } from "react";
-import { mount } from "auth/userAuth";
+import React from 'react'
 
 const Authentication = () => {
-    const elementRef = useRef(null);
+  return (
+    <div>Authentication</div>
+  )
+}
 
-    useEffect(() => {
-        mount(elementRef.current);
-    }, []);
-
-    return (
-        <>
-            <div ref={elementRef}></div>
-        </>
-    );
-};
-
-export default Authentication;
+export default Authentication
