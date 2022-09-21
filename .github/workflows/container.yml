@@ -27,8 +27,8 @@ jobs:
                   aws-region: ap-south-1
             - run: aws s3 sync dist s3://${{secrets.AWS_S3_BUCKET_NAME}}/container/latest
             
-            - uses: josemando/aws-cloudfront-create-invalidation@v1
+            - name: Create CloudFront invalidation
+              uses: josemando/aws-cloudfront-create-invalidation@v1
               with:
                   distribution-id: E34U7OZPY3SEJY
-                  paths: |
-                  container/latest/index.html
+                  paths: /container/latest/index.html
