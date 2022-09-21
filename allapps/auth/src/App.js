@@ -1,10 +1,10 @@
 import React from "react";
+import Routes from "./utils/Routes";
 
 const App = () => {
     return (
         <>
-            <h2>apugdd</h2>
-            <h1>header</h1>
+            <Routes />
         </>
     );
 };

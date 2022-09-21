@@ -1,0 +1,136 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.login-container {
+    color: #333333;
+    min-height: 100vh;
+    width: 100%;
+    display: grid;
+    place-items: center;
+    padding: 15px 0;
+}
+
+.login-box-form {
+    margin: 0 auto;
+    width: 80%;
+    background: #ffffff;
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    flex: 1 1 100%;
+    align-items: stretch;
+    justify-content: space-between;
+    box-shadow: 0 0 20px 6px #090b6f85;
+}
+
+.login-box-form div {
+    height: auto;
+}
+.login-box-form .login-left {
+    color: #ffffff;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-image: url("https://images.unsplash.com/photo-1597283712405-819a6021326c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTF8fGhkJTIwcGhvdG9zfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=600&q=60");
+    overflow: hidden;
+}
+.login-box-form .login-left .login-overlay {
+    padding: 30px;
+    width: 100%;
+    height: 100%;
+    background: #5961f9ad;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+.login-box-form .login-left .login-overlay h1 {
+    font-size: 10vmax;
+    line-height: 1;
+    font-weight: 900;
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+.login-box-form .login-left .login-overlay span p {
+    margin-top: 30px;
+    font-weight: 900;
+}
+.login-box-form .login-left .login-overlay span a {
+    background: #3b5998;
+    color: #ffffff;
+    margin-top: 10px;
+    padding: 14px 50px;
+    border-radius: 100px;
+    display: inline-block;
+    box-shadow: 0 3px 6px 1px #042d4657;
+}
+.login-box-form .login-left .login-overlay span a:last-child {
+    background: #1dcaff;
+    margin-left: 30px;
+}
+.login-box-form .login-right {
+    padding: 40px;
+    overflow: hidden;
+}
+
+.login-box-form .login-right h5 {
+    font-size: 6vmax;
+    line-height: 0;
+}
+.login-box-form .login-right p {
+    font-size: 14px;
+    color: #b0b3b9;
+}
+.login-box-form .login-right .login-inputs {
+    overflow: hidden;
+}
+.login-box-form .login-right input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 25px;
+    font-size: 16px;
+    border: none;
+    outline: none;
+    border-bottom: 2px solid #b0b3b9;
+}
+.login-box-form .login-right .login-remember-me--forget-password {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.login-box-form .login-right .login-remember-me--forget-password input {
+    margin: 0;
+    margin-right: 7px;
+    width: auto;
+}
+.login-box-form .login-right button {
+    cursor: pointer;
+    color: #fff;
+    font-size: 16px;
+    padding: 12px 35px;
+    border-radius: 50px;
+    display: inline-block;
+    border: 0;
+    outline: 0;
+    width: 100%;
+    box-shadow: 0px 4px 20px 0px #5cd53ba6;
+    background-image: linear-gradient(135deg, #70f570 10%, #49c628 100%);
+}
+
+.login-signup {
+    margin-top: 14px;
+}
+
+@media (max-width: 980px) {
+    .login-box-form .login-right {
+        width: 100%;
+    }
+}
+
+@media (max-width: 980px) {
+    .login-box-form {
+        flex-flow: wrap;
+        text-align: center;
+        align-content: center;
+        align-items: center;
+    }
+}
