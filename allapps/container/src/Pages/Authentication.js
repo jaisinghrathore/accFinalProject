@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { mount } from "auth/userAuth";
+import { mount } from "auth/userAuth"
 
 const Authentication = () => {
     const elementRef = useRef(null);
