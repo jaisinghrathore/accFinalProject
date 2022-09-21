@@ -1,5 +1,6 @@
 import React from "react";
 import "./login.css";
+import { Link } from "react-router-dom";
 
 const Login = () => {
     return (
@@ -29,7 +30,9 @@ const Login = () => {
 
                         <div className="login-remember-me--forget-password">
                             <p style={{ cursor: "pointer" }}>
-                                forget password?
+                                <Link to="forget_password" >
+                                    forget password?
+                                </Link>
                             </p>
                         </div>
 
@@ -37,9 +40,11 @@ const Login = () => {
                         <button>Login</button>
                         <div className="login-signup">
                             <p>
-                                Don't have an account?{" "}
-                                <a href="#">Creat Your Account</a> it's free to
-                                sign in here!
+                                Don't have an account?
+                                <Link to="/registration">
+                                    Creat Your Account.
+                                </Link>
+                                it's free to sign in here!
                             </p>
                         </div>
                     </div>
