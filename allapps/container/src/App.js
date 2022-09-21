@@ -3,7 +3,7 @@ import Authentication from "./Pages/Authentication";
 const App = () => {
     return (
         <>
-            <h1>jai !!!d</h1>
+            <h1>jai !!!</h1>
             <Authentication />
         </>
     );
