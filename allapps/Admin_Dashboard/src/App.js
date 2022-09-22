@@ -10,6 +10,7 @@ const App = ({ history }) => {
             <Router history={history}>
                 <Switch>
                     <Route exact path="/" component={Landing}></Route>
+                    <Route exact path="/final" component={Landing}></Route>
                     <Route exact path="/admin/add" component={Add}></Route>
                     <Route exact path="/admin/graph" component={Graph}></Route>
                 </Switch>
