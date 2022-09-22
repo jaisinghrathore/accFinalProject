@@ -6,7 +6,7 @@ const App = () => {
     return (
         <>
             <Switch>
-                <Route path="/" component={Authentication}></Route>
+                <Route path="/auth" component={Authentication}></Route>
             </Switch>
         </>
     );
