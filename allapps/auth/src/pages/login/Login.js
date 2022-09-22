@@ -30,7 +30,7 @@ const Login = () => {
 
                         <div className="login-remember-me--forget-password">
                             <p style={{ cursor: "pointer" }}>
-                                <Link to="forget_password">
+                                <Link to="/auth/forget_password">
                                     forget password?
                                 </Link>
                             </p>
