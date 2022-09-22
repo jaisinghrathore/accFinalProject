@@ -9,6 +9,11 @@ const Routers = () => {
     return (
         <>
             <Switch>
+
+                {/* later can remove it */}
+                <Route exact path="/" component={Login}></Route>
+                {/* later can remove it */}
+
                 <Route exact path="/auth" component={Login}></Route>
                 <Route
                     exact
