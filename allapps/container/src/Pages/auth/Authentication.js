@@ -11,7 +11,9 @@ const Authentication = () => {
         const { onParentNavigate } = mount(elementRef.current, {
             initialPath: history.location.pathname,
             onNavigate: ({ pathname: nextPathname }) => {
-                history.push(nextPathname);
+                if (nextPathname !== history.location.pathname) {
+                    history.push(nextPathname);
+                }
             },
         });
         history.listen(onParentNavigate);
