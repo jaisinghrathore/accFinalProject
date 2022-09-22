@@ -7,11 +7,7 @@ import Graph from "./pages/Graph";
 const App = () => {
     return (
         <>
-            <Switch>
-                <Route exact path="/" component={Landing}></Route>
-                <Route exact path="/admin/add" component={Add}></Route>
-                <Route exact path="/admin/graph" component={Graph}></Route>
-            </Switch>
+            <Landing />
         </>
     );
 };
