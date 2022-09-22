@@ -15,7 +15,7 @@ const mount = (element, { onNavigate, defaultHistory, initialPath }) => {
     }
 
     const root = ReactDOM.createRoot(element);
-    root.render(<App />);
+    root.render(<App history={history} />);
 
     return {
         onParentNavigate({ pathname: nextPath }) {
