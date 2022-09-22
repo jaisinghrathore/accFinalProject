@@ -1,5 +1,5 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import ReactDOM from "react-dom/client";
 import App from "./App";
 import { createMemoryHistory, createBrowserHistory } from "history";
 
@@ -13,8 +13,8 @@ const mount = (element, { onNavigate, defaultHistory, initialPath }) => {
     if (onNavigate) {
         history.listen(onNavigate);
     }
-
-    ReactDOM.render(<App history={history} />, element);
+    const root = ReactDOM.createRoot(element);
+    root.render(<App history={history} />);
 
     return {
         onParentNavigate({ pathname: nextPath }) {
