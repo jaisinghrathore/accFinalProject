@@ -10,8 +10,9 @@ const App = () => {
             <Link to="/admin">Admin Dashboard</Link>;
             <Link to="/auth">auth</Link>;
             <Switch>
-                <Route exact path="/auth" component={Authentication}></Route>
-                <Route exact path="/admin" component={Admin}></Route>
+                <Route path="/auth" component={Authentication}></Route>
+                <Route path="/admin" component={Admin}></Route>
+                <Route exact path="/" component={Admin}></Route>
             </Switch>
         </>
     );
