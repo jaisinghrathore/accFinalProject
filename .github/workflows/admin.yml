@@ -5,11 +5,11 @@ on:
         branches:
             - main
         paths:
-            - "allapps/admin/**"
+            - "allapps/Admin_Dashboard/**"
 
 defaults:
     run:
-        working-directory: allapps/admin
+        working-directory: allapps/Admin_Dashboard
 
 jobs:
     build:
