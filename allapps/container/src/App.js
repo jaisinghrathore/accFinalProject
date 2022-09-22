@@ -1,5 +1,6 @@
 import React from "react";
-import Authentication from "./Pages/Authentication";
+import Authentication from "./Pages/auth/Authentication";
+import Admin from "./Pages/admin/Admin";
 import { Route, Switch } from "react-router-dom";
 
 const App = () => {
@@ -7,6 +8,7 @@ const App = () => {
         <>
             <Switch>
                 <Route path="/auth" component={Authentication}></Route>
+                <Route exact path="/" component={Admin}></Route>
             </Switch>
         </>
     );

@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 
 const Authentication = () => {
     const elementRef = useRef(null);
-    
+
     const history = useHistory();
 
     useEffect(() => {
