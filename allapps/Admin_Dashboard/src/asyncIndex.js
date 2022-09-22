@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 
 const mount = (element) => {
     const root = ReactDOM.createRoot(element);
-    root.render(<h1>fdsf</h1>);
+    root.render(<h1>fdsfdf</h1>);
 };
 
 if (process.env.NODE_ENV === "development") {
