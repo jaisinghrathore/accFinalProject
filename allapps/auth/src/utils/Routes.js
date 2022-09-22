@@ -9,19 +9,19 @@ const Routers = () => {
     return (
         <>
             <Switch>
+                <Route exact path="/auth" component={Login}></Route>
                 <Route
                     exact
-                    path="/registration"
+                    path="/auth/registration"
                     component={Registration}></Route>
                 <Route
                     exact
-                    path="/change_password"
+                    path="/auth/change_password"
                     component={ChangePassword}></Route>
                 <Route
                     exact
-                    path="/forget_password"
+                    path="/auth/forget_password"
                     component={ForgetPassword}></Route>
-                <Route exact path="/" component={Login}></Route>
             </Switch>
         </>
     );

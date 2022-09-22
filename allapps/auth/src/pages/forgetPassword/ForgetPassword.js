@@ -18,7 +18,7 @@ const ForgetPassword = () => {
                     <button className="forgetPassword-submitButton">
                         <Link
                             style={{ color: "white", textDecoration: "none" }}
-                            to="/change_password">
+                            to="/auth/change_password">
                             Submit
                         </Link>
                     </button>

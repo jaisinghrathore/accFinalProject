@@ -52,8 +52,8 @@ const Registration = () => {
                         <div className="registration-signup">
                             <p>
                                 Already have an account?
-                                <Link to="/"> Sign In</Link>. Make experience
-                                better with us.
+                                <Link to="/auth"> Sign In</Link>. Make
+                                experience better with us.
                             </p>
                         </div>
                     </div>

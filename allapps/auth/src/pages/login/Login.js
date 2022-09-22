@@ -30,7 +30,7 @@ const Login = () => {
 
                         <div className="login-remember-me--forget-password">
                             <p style={{ cursor: "pointer" }}>
-                                <Link to="forget_password" >
+                                <Link to="forget_password">
                                     forget password?
                                 </Link>
                             </p>
@@ -41,7 +41,7 @@ const Login = () => {
                         <div className="login-signup">
                             <p>
                                 Don't have an account?
-                                <Link to="/registration">
+                                <Link to="/auth/registration">
                                     Creat Your Account.
                                 </Link>
                                 it's free to sign in here!
