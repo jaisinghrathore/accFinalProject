@@ -9,7 +9,6 @@ const Routers = () => {
     return (
         <>
             <Switch>
-                <Route exact path="/" component={Login}></Route>
                 <Route
                     exact
                     path="/registration"
@@ -22,6 +21,7 @@ const Routers = () => {
                     exact
                     path="/forget_password"
                     component={ForgetPassword}></Route>
+                <Route exact path="/" component={Login}></Route>
             </Switch>
         </>
     );

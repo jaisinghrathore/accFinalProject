@@ -4,18 +4,16 @@ import { useHistory } from "react-router-dom";
 
 const Authentication = () => {
     const elementRef = useRef(null);
+    
     const history = useHistory();
 
     useEffect(() => {
         const { onParentNavigate } = mount(elementRef.current, {
-            onNavigate: ({ pathname: nextPath }) => {
-                const { pathname } = history.location;
-                if (pathname !== nextPath) {
-                    history.push(nextPath);
-                }
+            initialPath: history.location.pathname,
+            onNavigate: ({ pathname: nextPathname }) => {
+                history.push(nextPathname);
             },
         });
-
         history.listen(onParentNavigate);
     }, []);
 
