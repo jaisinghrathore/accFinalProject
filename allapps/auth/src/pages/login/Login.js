@@ -26,7 +26,6 @@ const Login = () => {
                         </div>
 
                         <br />
-                        <br />
 
                         <div className="login-remember-me--forget-password">
                             <p style={{ cursor: "pointer" }}>
@@ -35,6 +34,7 @@ const Login = () => {
                                 </Link>
                             </p>
                         </div>
+                        <br />
 
                         <br />
                         <button>Login</button>

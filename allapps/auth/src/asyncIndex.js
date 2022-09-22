@@ -27,7 +27,7 @@ const mount = (element, { onNavigate, defaultHistory, initialPath }) => {
 };
 
 if (process.env.NODE_ENV === "development") {
-    const element = document.getElementById("root");
+    const element = document.getElementById("auth_root");
     if (element) {
         mount(element, { defaultHistory: createBrowserHistory() });
     }
