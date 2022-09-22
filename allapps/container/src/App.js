@@ -8,7 +8,6 @@ const App = () => {
         <>
             <Switch>
                 <Route path="/auth" component={Authentication}></Route>
-                <Route exact path="/" component={Admin}></Route>
             </Switch>
         </>
     );
