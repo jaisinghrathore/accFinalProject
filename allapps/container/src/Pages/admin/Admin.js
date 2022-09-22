@@ -1,8 +1,8 @@
 import React, { useEffect, useRef } from "react";
-import { mount } from "auth/userAuth";
+import { mount } from "admin/admin";
 import { useHistory } from "react-router-dom";
 
-const Authentication = () => {
+const Admin = () => {
     const elementRef = useRef(null);
 
     const history = useHistory();
@@ -26,4 +26,4 @@ const Authentication = () => {
     );
 };
 
-export default Authentication;
+export default Admin;

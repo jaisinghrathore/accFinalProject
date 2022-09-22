@@ -13,7 +13,6 @@ const mount = (element, { onNavigate, defaultHistory, initialPath }) => {
     if (onNavigate) {
         history.listen(onNavigate);
     }
-
     const root = ReactDOM.createRoot(element);
     root.render(<App history={history} />);
 

@@ -6,6 +6,7 @@ const Authentication = () => {
     const elementRef = useRef(null);
 
     const history = useHistory();
+    
 
     useEffect(() => {
         const { onParentNavigate } = mount(elementRef.current, {
