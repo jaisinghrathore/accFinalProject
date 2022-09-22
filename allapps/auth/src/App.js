@@ -1,10 +1,13 @@
 import React from "react";
 import Routes from "./utils/Routes";
+import { Router } from "react-router-dom";
 
-const App = () => {
+const App = ({ history }) => {
     return (
         <>
-            <Routes />
+            <Router history={history}>
+                <Routes />
+            </Router>
         </>
     );
 };

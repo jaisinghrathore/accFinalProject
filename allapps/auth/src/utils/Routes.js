@@ -2,24 +2,27 @@ import React from "react";
 import Login from "../pages/login/Login";
 import Registration from "../pages/registration/Registration";
 import ForgetPassword from "../pages/forgetPassword/ForgetPassword";
-import ChangePassword from "../pages/changePassword/ChangePassword"
-import { Routes, Route } from "react-router-dom";
+import ChangePassword from "../pages/changePassword/ChangePassword";
+import { Switch, Route } from "react-router-dom";
 
 const Routers = () => {
     return (
         <>
-            <Routes>
-                <Route path="/" element={<Login />}></Route>
-                <Route path="/registration" element={<Registration />}></Route>
-                <Route path="/login" element={<Login />}></Route>
+            <Switch>
+                <Route exact path="/" component={Login}></Route>
                 <Route
+                    exact
+                    path="/registration"
+                    component={Registration}></Route>
+                <Route
+                    exact
                     path="/change_password"
-                    element={<ChangePassword />}></Route>
+                    component={ChangePassword}></Route>
                 <Route
-                    path="forget_password"
-                    element={<ForgetPassword />}></Route>
-                <Route path="*" element={<ForgetPassword />}></Route>
-            </Routes>
+                    exact
+                    path="/forget_password"
+                    component={ForgetPassword}></Route>
+            </Switch>
         </>
     );
 };
