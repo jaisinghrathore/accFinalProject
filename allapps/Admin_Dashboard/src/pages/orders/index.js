@@ -69,7 +69,7 @@ const Orders = () => {
         <Container>
             <Grid container spacing={1} mt={3}>
                 <Grid item md={3} xs={12}>
-                    <DashboardNav active="orders" />
+                    <DashboardNav />
                 </Grid>
                 <Grid item md={9} xs={12}>
                     <Card>

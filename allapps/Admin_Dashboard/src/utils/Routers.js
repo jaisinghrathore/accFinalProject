@@ -5,6 +5,7 @@ import Order from "../pages/orders/index";
 import Users from "../pages/users/index";
 import UserQueries from "../pages/userQueries/index";
 import Products from "../pages/products/index";
+import EditProduct from "../pages/products/EditProduct";
 
 const Routers = () => {
     return (
@@ -21,6 +22,10 @@ const Routers = () => {
                     exact
                     path="/admin/products"
                     component={Products}></Route>
+                <Route
+                    exact
+                    path="/admin/product/:id"
+                    component={EditProduct}></Route>
                 <Route
                     exact
                     path="/admin/user-query"
