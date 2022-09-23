@@ -6,15 +6,17 @@ const packageJson = require("../package.json");
 const devConfig = {
     mode: "development",
     devServer: {
-        port: 8080,
+        port: 8083,
+        historyApiFallback: {
+            index: "index.html",
+        },
     },
     plugins: [
         new moduleFederationPlugin({
-            name: "container",
-            remotes: {
-                auth: "auth@http://localhost:8081/remoteEntry.js",
-                admin: "admin@http://localhost:8082/remoteEntry.js",
-                products: "products@http://localhost:8083/remoteEntry.js",
+            name: "products",
+            filename: "remoteEntry.js",
+            exposes: {
+                "./products": "./src/asyncIndex",
             },
             shared: packageJson.dependencies,
         }),
