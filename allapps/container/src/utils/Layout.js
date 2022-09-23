@@ -8,6 +8,7 @@ import { useHistory } from "react-router-dom";
 import Badge from "@mui/material/Badge";
 import Carousel from "react-material-ui-carousel";
 import LayoutTypoNav from "../components/LayoutTypo";
+import SlidingCart from "../components/SlidingCart";
 
 const items = [
     {
@@ -48,6 +49,8 @@ const Layout = ({ children }) => {
     return (
         <>
             <Box>
+                <SlidingCart hideCart={hideCart} cartWidt={cartWidth} />
+
                 <Carousel
                     sx={{ postion: "absolute", top: "0" }}
                     autoPlay
