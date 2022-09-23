@@ -1,11 +1,12 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
 import Dashboard from "../pages/dashboard/index";
-import Add from "../pages/Add";
-import Graph from "../pages/Graph";
 import Order from "../pages/orders/index";
+import Users from "../pages/users/index";
+import UserQueries from "../pages/userQueries/index";
+import Products from "../pages/products/index";
 
-const Routers = ({ history }) => {
+const Routers = () => {
     return (
         <>
             <Switch>
@@ -15,8 +16,15 @@ const Routers = ({ history }) => {
                     path="/admin/dashboard"
                     component={Dashboard}></Route>
                 <Route exact path="/admin/orders" component={Order}></Route>
-                <Route exact path="/admin/add" component={Add}></Route>
-                <Route exact path="/admin/graph" component={Graph}></Route>
+                <Route exact path="/admin/users" component={Users}></Route>
+                <Route
+                    exact
+                    path="/admin/products"
+                    component={Products}></Route>
+                <Route
+                    exact
+                    path="/admin/user-query"
+                    component={UserQueries}></Route>
             </Switch>
         </>
     );

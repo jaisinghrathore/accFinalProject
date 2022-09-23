@@ -2,7 +2,6 @@ import React, { useEffect, useContext, useReducer } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { CategoryScale } from "chart.js";
 import Chart from "chart.js/auto";
-import "./index.css";
 import {
     CircularProgress,
     Grid,
@@ -50,7 +49,7 @@ const Dashboard = () => {
             <Container>
                 <Grid container spacing={1} mt={3}>
                     <Grid item md={3} xs={12}>
-                        <DashboardNav />
+                        <DashboardNav active="dashboard" />
                     </Grid>
                     <Grid item md={9} xs={12}>
                         <Card>
@@ -160,7 +159,7 @@ const Dashboard = () => {
                                         component="h3"
                                         variant="h5"
                                         mt={3}>
-                                        Sales Chart For the admin.
+                                        Sales Chart For The Admin.
                                     </Typography>
                                 </ListItem>
                                 <ListItem>

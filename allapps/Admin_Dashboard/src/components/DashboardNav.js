@@ -7,16 +7,19 @@ const DashColor = {
     textDecoration: "none",
 };
 
-const DashboardNav = () => {
+const DashboardNav = ({ active }) => {
     return (
         <Card>
             <List>
                 <Link style={DashColor} to="/admin/dashboard">
-                    <ListItem selected button component="a">
+                    <ListItem button component="a">
                         <ListItemText primary="Admin Dashboard"></ListItemText>
                     </ListItem>
                 </Link>
-                <Link style={DashColor} to="/admin/orders">
+                <Link
+                    style={DashColor}
+                    to="/admin/orders"
+                    {...(active == "orders" ? "selected" : "")}>
                     <ListItem button component="a">
                         <ListItemText primary="Orders"></ListItemText>
                     </ListItem>
