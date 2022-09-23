@@ -26,4 +26,4 @@ const Admin = () => {
     );
 };
 
-export default Admin;
+export default React.memo(Admin);

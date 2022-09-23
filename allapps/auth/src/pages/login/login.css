@@ -5,7 +5,7 @@
 
 .login-container {
     color: #333333;
-    min-height: 100vh;
+    min-height: 80vh;
     width: 100%;
     display: grid;
     place-items: center;
@@ -134,4 +134,3 @@
         align-items: center;
     }
 }
-

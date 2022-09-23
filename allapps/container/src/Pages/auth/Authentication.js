@@ -27,4 +27,4 @@ const Authentication = () => {
     );
 };
 
-export default Authentication;
+export default React.memo(Authentication);
