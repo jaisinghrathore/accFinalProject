@@ -136,6 +136,10 @@ function AdminUsers() {
                                                             </TableCell>
                                                             <TableCell>
                                                                 <Link
+                                                                    style={{
+                                                                        textDecoration:
+                                                                            "none",
+                                                                    }}
                                                                     to={`/admin/user/${user._id}`}>
                                                                     <Button
                                                                         size="small"

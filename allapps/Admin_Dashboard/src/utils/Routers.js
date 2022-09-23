@@ -6,6 +6,7 @@ import Users from "../pages/users/index";
 import UserQueries from "../pages/userQueries/index";
 import Products from "../pages/products/index";
 import EditProduct from "../pages/products/EditProduct";
+import UserEdit from "../pages/users/EditUser"
 
 const Routers = () => {
     return (
@@ -17,7 +18,6 @@ const Routers = () => {
                     path="/admin/dashboard"
                     component={Dashboard}></Route>
                 <Route exact path="/admin/orders" component={Order}></Route>
-                <Route exact path="/admin/users" component={Users}></Route>
                 <Route
                     exact
                     path="/admin/products"
@@ -26,6 +26,11 @@ const Routers = () => {
                     exact
                     path="/admin/product/:id"
                     component={EditProduct}></Route>
+                <Route exact path="/admin/users" component={Users}></Route>
+                <Route
+                    exact
+                    path="/admin/user/:id"
+                    component={UserEdit}></Route>
                 <Route
                     exact
                     path="/admin/user-query"
