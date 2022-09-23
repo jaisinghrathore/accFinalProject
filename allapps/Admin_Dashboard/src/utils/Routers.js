@@ -35,4 +35,4 @@ const Routers = () => {
     );
 };
 
-export default Routers;
+export default React.memo(Routers);
