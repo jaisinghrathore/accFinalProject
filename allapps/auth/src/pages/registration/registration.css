@@ -39,7 +39,7 @@
     padding: 30px;
     width: 100%;
     height: 100%;
-    background: #5961f9ad;
+    background: rgba(245, 245, 245, 0.5);
     overflow: hidden;
     box-sizing: border-box;
 }
@@ -74,6 +74,7 @@
 .registration-box-form .registration-right {
     padding: 40px;
     overflow: hidden;
+    background: rgba(245, 245, 245, 1);
 }
 
 .registration-box-form .registration-right h5 {
@@ -94,6 +95,7 @@
     font-size: 16px;
     border: none;
     outline: none;
+    background: rgba(245, 245, 245, 1);
     border-bottom: 2px solid #b0b3b9;
 }
 .registration-box-form .registration-right button {
