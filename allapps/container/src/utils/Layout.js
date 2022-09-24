@@ -8,10 +8,13 @@ import Footer from "../components/footer";
 
 const items = [
     {
-        image: "https://images.unsplash.com/photo-1500964757637-c85e8a162699?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mzh8fGxhbmRzY2FwZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=600&q=60",
+        image: "https://www.tanishq.co.in/wps/wcm/connect/tanishqrt/4c914caf-0bee-4fa1-adfe-6547791cfd53/desktop/Stunning-Every-Ear-1920x768.jpg?MOD=AJPERES&amp;CACHEID=ROOTWORKSPACE.Z18_90IA1H80O0T6206GQH590V3000-4c914caf-0bee-4fa1-adfe-6547791cfd53-desktop-ocShN4N&amp;impolicy=pqmed",
     },
     {
-        image: "https://images.unsplash.com/photo-1434725039720-aaad6dd32dfe?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8bGFuZHNjYXBlfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=600&q=60",
+        image: "https://www.tanishq.co.in/wps/wcm/connect/tanishqrt/a932caae-301f-40ef-bcec-2301f6158616/desktop/Rhythms-of-rain-1920x768.jpg?MOD=AJPERES&amp;CACHEID=ROOTWORKSPACE.Z18_90IA1H80O0T6206GQH590V3000-a932caae-301f-40ef-bcec-2301f6158616-desktop-ocSihQ0&amp;impolicy=pqmed",
+    },
+    {
+        image: "https://www.tanishq.co.in/wps/wcm/connect/tanishqrt/ee33c4c9-e246-4f4d-bf49-960a549e6ba4/desktop/Lilac-1920x768.jpg?MOD=AJPERES&amp;CACHEID=ROOTWORKSPACE.Z18_90IA1H80O0T6206GQH590V3000-ee33c4c9-e246-4f4d-bf49-960a549e6ba4-desktop-ocShDOy&amp;impolicy=pqmed",
     },
 ];
 
@@ -57,7 +60,7 @@ const Layout = ({ children }) => {
                         {items.map((item, i) => (
                             <Paper key={i}>
                                 <img
-                                    height="340"
+                                    height="400px"
                                     width="100%"
                                     src={item.image}
                                 />
