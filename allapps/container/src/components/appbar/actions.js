@@ -20,28 +20,38 @@ import {
     MyList,
 } from "../../styles/appbar";
 import { useHistory } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { getUser } from "../../utils/Redux/actions/getUserAction";
+import Cookies from "js-cookie";
 
 const Actions = ({ matches }) => {
     const [open, setOpen] = React.useState(false);
 
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-
+    const navigate = useHistory();
+    const userToken = useSelector((state) => state.GlazierToken);
+    const dispatch = useDispatch();
     const OpenCart = () => {
         setcartWidth("340px");
     };
 
+    function signOut() {
+        dispatch(getUser());
+        Cookies.remove("GlazierToken");
+        navigate.push("/auth/removeUser");
+    }
+
     const hideCart = () => {
         setcartWidth("0px");
     };
-    const navigate = useHistory();
 
     const Component = matches
         ? ActionIconsContainerMobile
         : ActionIconsContainerDesktop;
 
-    const isAdmin = true;
-    const email = "jsirqthore@gmail.com";
+    const isAdmin = userToken?.isAdmin;
+    const username = userToken?.username;
     return (
         <Component>
             <MyList type="row">
@@ -154,25 +164,25 @@ const Actions = ({ matches }) => {
                                         Admin Dashboard
                                     </Typography>
                                 )}
-                                {/* {state.userInfo && ( */}
-                                <Typography
-                                    className="ProfileItems"
-                                    variant="p"
-                                    my={1.4}
-                                    sx={{
-                                        fontSize: "13px",
-                                        fontWeight: "bold",
-                                    }}
-                                    onClick={() => {
-                                        signOut();
-                                        handleClose();
-                                    }}>
-                                    Logout
-                                </Typography>
-                                {/* )} */}
+                                {userToken && (
+                                    <Typography
+                                        className="ProfileItems"
+                                        variant="p"
+                                        my={1.4}
+                                        sx={{
+                                            fontSize: "13px",
+                                            fontWeight: "bold",
+                                        }}
+                                        onClick={() => {
+                                            signOut();
+                                            handleClose();
+                                        }}>
+                                        Logout
+                                    </Typography>
+                                )}
                             </Box>
                         </Modal>
-                        {email ? (
+                        {username ? (
                             <Typography
                                 onClick={handleOpen}
                                 variant="p"
@@ -183,7 +193,7 @@ const Actions = ({ matches }) => {
                                     marginLeft: "6px",
                                     cursor: "pointer",
                                 }}>
-                                {email.split("@")[0].slice(0, 5)}...
+                                {username.split("@")[0].slice(0, 5)}...
                             </Typography>
                         ) : (
                             <Typography
@@ -192,7 +202,6 @@ const Actions = ({ matches }) => {
                                     fontSize: "1.2rem",
                                     fontWeight: "bold",
                                     margin: "0 30px",
-                                    color: "white",
                                     marginLeft: "6px",
                                     cursor: "pointer",
                                 }}

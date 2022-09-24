@@ -27,7 +27,7 @@ const Registration = () => {
     } = userRegistration();
 
     React.useEffect(() => {
-        if (data?.response.data.error) {
+        if (data?.response?.data.error) {
             alert(data?.response.data.error);
         }
         if (data?.data) {

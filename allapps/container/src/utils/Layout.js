@@ -20,14 +20,13 @@ const items = [
 
 const Layout = ({ children }) => {
     const navigate = useHistory();
-
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
     const [cartWidth, setcartWidth] = React.useState("");
-    const [email, setEmail] = React.useState("jairqthore");
     const [cartNumber, setCartNumber] = React.useState(10);
+
 
     const OpenCart = () => {
         setcartWidth("340px");
@@ -37,7 +36,6 @@ const Layout = ({ children }) => {
         setcartWidth("0px");
     };
 
-    function signOut() {}
 
     const isAdmin = true;
 
