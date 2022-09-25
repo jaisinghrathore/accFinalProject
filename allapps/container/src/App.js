@@ -8,9 +8,7 @@ import axios from "axios";
 const App = () => {
     const dispatch = useDispatch();
     const userToken = useSelector((state) => state.GlazierToken);
-    const dara = useSelector((state) => state);
 
-    console.log(dara);
     // fetching data to check wether it is an admin
     React.useEffect(() => {
         if (userToken && !userToken?.isAdmin) {
