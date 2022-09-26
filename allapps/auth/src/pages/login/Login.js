@@ -44,6 +44,12 @@ const Login = () => {
         return errors;
     }, [inpVal]);
 
+    React.useState(() => {
+        if (state?.GlazierToken._id) {
+            router.push("/");
+        }
+    }, [state?.GlazierToken]);
+
     const handleChange = (e) => {
         const name = e.target.name;
         const value = e.target.value;

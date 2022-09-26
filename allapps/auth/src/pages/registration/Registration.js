@@ -75,6 +75,12 @@ const Registration = () => {
         }
     };
 
+    React.useState(() => {
+        if (state?.GlazierToken._id) {
+            router.push("/");
+        }
+    }, [state?.GlazierToken]);
+
     return (
         <>
             <div className="registration-container">

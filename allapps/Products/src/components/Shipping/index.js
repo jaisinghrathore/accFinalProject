@@ -29,11 +29,11 @@ export default function Shipping() {
         cart: { shippingAddress, cartItems },
     } = state;
 
-    useEffect(() => {
-        if (!userInfo) {
-            router.push("/auth?redirect=/shipping");
-        }
-    }, [userInfo]);
+    // useEffect(() => {
+    //     if (!userInfo) {
+    //         router.push("/auth?redirect=/shipping");
+    //     }
+    // }, [userInfo]);
 
     useEffect(() => {
         if (cartItems.length === 0) {
