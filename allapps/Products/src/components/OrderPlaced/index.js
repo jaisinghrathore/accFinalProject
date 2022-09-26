@@ -36,7 +36,7 @@ function reducer(state, action) {
 function OrderPlaced() {
     const { state } = contextAuthStore();
     const router = useHistory();
-    const { GlazierToken: userInfo } = state;
+    const { GlazierToken } = state;
     const [{ loading, order, error }, dispatch] = React.useReducer(reducer, {
         loading: true,
         order: {},
@@ -45,11 +45,11 @@ function OrderPlaced() {
 
     const orderId = router.location.pathname.split("/")[2];
 
-    // React.useEffect(() => {
-    //     if (!userInfo) {
-    //         router.push("/auth");
-    //     }
-    // }, [state.GlazierToken]);
+    React.useEffect(() => {
+        if (!GlazierToken?.id) {
+            router.push("/auth");
+        }
+    }, [state.GlazierToken]);
 
     React.useEffect(() => {
         const fetchOrder = async () => {
@@ -58,7 +58,9 @@ function OrderPlaced() {
                 const { data } = await axios.get(
                     `http://localhost:8000/admin/get_order/${orderId}`,
                     {
-                        headers: { authorization: `Bearer ${userInfo.token}` },
+                        headers: {
+                            authorization: `Bearer ${GlazierToken.token}`,
+                        },
                     }
                 );
                 dispatch({ type: "FETCH_SUCCESS", payload: data });
@@ -70,11 +72,11 @@ function OrderPlaced() {
         fetchOrder();
     }, []);
 
-    // React.useEffect(() => {
-    //     if (order.length == 0) {
-    //         router.push("/products");
-    //     }
-    // }, [order]);
+    React.useEffect(() => {
+        if (order.length == 0) {
+            router.push("/products");
+        }
+    }, [order]);
 
     const totalPrice = state.order.reduce(
         (acc, caa) => acc + caa.price * caa.quantity,

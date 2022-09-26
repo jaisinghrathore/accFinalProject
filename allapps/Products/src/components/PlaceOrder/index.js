@@ -20,7 +20,7 @@ function PlaceOrder() {
     const { state, dispatch } = contextAuthStore();
     const router = useHistory();
     const {
-        GlazierToken: userInfo,
+        GlazierToken,
         cart: { shippingAddress, cartItems },
     } = state;
     const [loading, setLoading] = React.useState(false);
@@ -36,8 +36,8 @@ function PlaceOrder() {
     }, []);
 
     React.useEffect(() => {
-        if (!state.GlazierToken) {
-            router.push("/auth?redirect=/placeorder");
+        if (!GlazierToken?._id) {
+            router.push("/auth");
         }
     }, [state.GlazierToken]);
 
@@ -55,7 +55,7 @@ function PlaceOrder() {
             const val = await axios.post(
                 "http://localhost:8000/admin/send_order",
                 {
-                    user: userInfo._id,
+                    user: GlazierToken._id,
                     orderItems: cartItems,
                     shippingAddress,
                     paymentMethod: "cash",
@@ -65,7 +65,7 @@ function PlaceOrder() {
                 },
                 {
                     headers: {
-                        authorization: `Bearer ${userInfo.token}`,
+                        authorization: `Bearer ${GlazierToken.token}`,
                     },
                 }
             );

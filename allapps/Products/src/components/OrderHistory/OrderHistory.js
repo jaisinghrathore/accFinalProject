@@ -47,8 +47,8 @@ function OrderHistory() {
         error: "",
     });
     React.useEffect(() => {
-        if (!state.GlazierToken) {
-            router.push("/login?redirect=/order-history");
+        if (!state?.GlazierToken?._id) {
+            router.push("/login");
         }
     }, [state.GlazierToken]);
 

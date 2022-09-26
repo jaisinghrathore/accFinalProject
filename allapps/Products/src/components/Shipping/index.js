@@ -25,15 +25,15 @@ export default function Shipping() {
     const router = useHistory();
     const { state, dispatch } = contextAuthStore();
     const {
-        GlazierToken: userInfo,
+        GlazierToken,
         cart: { shippingAddress, cartItems },
     } = state;
 
-    // useEffect(() => {
-    //     if (!userInfo) {
-    //         router.push("/auth?redirect=/shipping");
-    //     }
-    // }, [userInfo]);
+    useEffect(() => {
+        if (!GlazierToken?._id) {
+            router.push("/auth");
+        }
+    }, [GlazierToken]);
 
     useEffect(() => {
         if (cartItems.length === 0) {

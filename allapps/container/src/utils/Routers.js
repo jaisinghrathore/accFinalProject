@@ -18,7 +18,6 @@ const Routers = () => {
                 )}
                 <Route path="/contact" component={Contact}></Route>
                 <Route path="/" component={ProductsMF}></Route>
-                <Redirect to="/"></Redirect>
             </Switch>
         </>
     );

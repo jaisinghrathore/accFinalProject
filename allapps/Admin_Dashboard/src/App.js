@@ -15,9 +15,10 @@ const App = ({ history, userToken }) => {
         }
     }, []);
 
-    console.log(state.GlazierToken);
     // React.useEffect(() => {
-    //     console.log(state.GlazierToken.isAdmin);
+    //     console.log(!state?.GlazierToken?.isAdmin){
+    //         router.push("/")
+    //     };
     // }, [state.GlazierToken]);
 
     return (
