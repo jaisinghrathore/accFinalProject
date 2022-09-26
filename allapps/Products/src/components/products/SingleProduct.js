@@ -16,12 +16,33 @@ import FitScreenIcon from "@mui/icons-material/FitScreen";
 import useDialogModal from "../../hooks/useDialogModal";
 import ProductDetail from "../productdetail";
 import ProductMeta from "./ProductMeta";
+import { contextAuthStore } from "../../utils/store";
+import { useHistory } from "react-router-dom";
 
 export default function SingleProduct({ product, matches }) {
     const [ProductDetailDialog, showProductDetailDialog, closeProductDialog] =
         useDialogModal(ProductDetail);
 
     const [showOptions, setShowOptions] = useState(false);
+    const { state, dispatch } = contextAuthStore();
+    const history = useHistory();
+
+    const addToCart = () => {
+        const existItem = state.cart.cartItems.find(
+            (x) => x._id === product._id
+        );
+        const quantity = existItem ? existItem.quantity + 1 : 1;
+        if (product?.countInStock < quantity) {
+            alert("Product out of Stock.");
+            return;
+        }
+
+        dispatch({
+            type: "ADD_TO_CART",
+            payload: { ...product, quantity },
+        });
+        history.push("/cart");
+    };
 
     const handleMouseEnter = () => {
         setShowOptions(true);
@@ -57,7 +78,9 @@ export default function SingleProduct({ product, matches }) {
                     </Stack>
                 </ProductActionsWrapper>
             </Product>
-            <ProductAddToCart variant="contained">Add to cart</ProductAddToCart>
+            <ProductAddToCart onClick={addToCart} variant="contained">
+                Add to cart
+            </ProductAddToCart>
             <ProductDetailDialog product={product} />
         </>
     );

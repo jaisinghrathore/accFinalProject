@@ -18,6 +18,7 @@ import {
 } from "@mui/material";
 import DashboardNav from "../../components/DashboardNav";
 import { Controller, useForm } from "react-hook-form";
+import { contextAuthStore } from "../../utils/store";
 
 function reducer(state, action) {
     switch (action.type) {
@@ -59,6 +60,7 @@ function reducer(state, action) {
 
 function UserEdit() {
     const location = useLocation();
+    const { state } = contextAuthStore();
 
     const userId = location.pathname.split("/")[3];
 
@@ -76,59 +78,67 @@ function UserEdit() {
     const router = useHistory();
 
     useEffect(() => {
-        // if (!userInfo) {
-        //     return router.push("/login");
-        // } else {
-        //     const fetchData = async () => {
-        //         try {
-        //             dispatch({ type: "FETCH_REQUEST" });
-        //             const { data } = await axios.get(
-        //                 `/api/admin/users/${userId}`,
-        //                 {
-        //                     headers: {
-        //                         authorization: `Bearer ${userInfo.token}`,
-        //                     },
-        //                 }
-        //             );
-        //             console.log(data.isAdmin);
-        //             setIsAdmin(data.isAdmin == "true" ? true : false);
-        //             dispatch({ type: "FETCH_SUCCESS" });
-        //             setValue("name", data.name);
-        //         } catch (err) {
-        //             dispatch({ type: "FETCH_FAIL", payload: getError(err) });
-        //         }
-        //     };
-        //     fetchData();
-        // }
+        //   if (!state.GlazierToken) {
+        //       return router.push("/login");
+        //   } else {
+        const fetchData = async () => {
+            try {
+                dispatch({ type: "FETCH_REQUEST" });
+                const { data } = await axios.get(
+                    `http://localhost:8000/user/${userId}`,
+                    {
+                        headers: {
+                            authorization: `Bearer ${state.GlazierToken.token}`,
+                        },
+                    }
+                );
+                setIsAdmin(data.isAdmin ? true : false);
+                dispatch({ type: "FETCH_SUCCESS" });
+                setValue("name", data.username);
+            } catch (err) {
+                dispatch({ type: "FETCH_FAIL", payload: err });
+            }
+        };
+        fetchData();
+        //   }
     }, []);
 
+    // useEffect(() => {}, []);
+    // if (!state.GlazierToken) {
+    //     return router.push("/auth/login");
+    // } else {
+
     // React.useEffect(() => {
-    //     if (!userInfo) {
+    //     if (!state.GlazierToken) {
     //         router.push("/login");
     //     }
-    //     if (userInfo?.isAdmin == "false") {
+    //     if (state.GlazierToken?.isAdmin == "false") {
     //         router.push("/");
     //     }
-    // }, [userInfo]);
+    // }, [state.GlazierToken]);
 
     const submitHandler = async ({ name }) => {
-        // try {
-        //     dispatch({ type: "UPDATE_REQUEST" });
-        //     await axios.put(
-        //         `/api/admin/users/${userId}`,
-        //         {
-        //             name,
-        //             isAdmin,
-        //         },
-        //         { headers: { authorization: `Bearer ${userInfo.token}` } }
-        //     );
-        //     dispatch({ type: "UPDATE_SUCCESS" });
-        //     alert("User updated successfully");
-        //     router.push("/admin/users");
-        // } catch (err) {
-        //     dispatch({ type: "UPDATE_FAIL", payload: getError(err) });
-        //     alert(getError(err));
-        // }
+        try {
+            dispatch({ type: "UPDATE_REQUEST" });
+            await axios.put(
+                `http://localhost:8000/registration/register/${userId}`,
+                {
+                    username: name,
+                    isAdmin,
+                },
+                {
+                    headers: {
+                        authorization: `Bearer ${state.GlazierToken.token}`,
+                    },
+                }
+            );
+            dispatch({ type: "UPDATE_SUCCESS" });
+            alert("User updated successfully");
+            router.push("/admin/users");
+        } catch (err) {
+            dispatch({ type: "UPDATE_FAIL", payload: getError(err) });
+            alert(getError(err));
+        }
     };
     return (
         <Container>
@@ -168,7 +178,6 @@ function UserEdit() {
                                                         variant="outlined"
                                                         fullWidth
                                                         id="name"
-                                                        fullWidth
                                                         label="Name"
                                                         error={Boolean(
                                                             errors.name

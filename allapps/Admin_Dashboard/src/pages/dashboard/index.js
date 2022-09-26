@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useReducer } from "react";
+import React, { useEffect, useReducer } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { CategoryScale } from "chart.js";
 import Chart from "chart.js/auto";
@@ -16,6 +16,8 @@ import {
 } from "@mui/material";
 import DashboardNav from "../../components/DashboardNav";
 import { Bar } from "react-chartjs-2";
+import { contextAuthStore } from "../../utils/store";
+import axios from "axios";
 
 function reducer(state, action) {
     switch (action.type) {
@@ -36,11 +38,31 @@ function reducer(state, action) {
 }
 
 const Dashboard = () => {
+    const { state } = contextAuthStore();
     const [{ loading, error, summary }, dispatch] = useReducer(reducer, {
         loading: false,
         summary: { salesData: [] },
         error: "",
     });
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                dispatch({ type: "FETCH_REQUEST" });
+                const { data } = await axios.get(
+                    `http://localhost:8000/admin/summary`,
+                    {
+                        headers: {
+                            authorization: `Bearer ${state.GlazierToken.token}`,
+                        },
+                    }
+                );
+                dispatch({ type: "FETCH_SUCCESS", payload: data });
+            } catch (err) {
+                dispatch({ type: "FETCH_FAIL", payload: err });
+            }
+        };
+        fetchData();
+    }, []);
 
     const router = useHistory();
     Chart.register(CategoryScale);
@@ -65,7 +87,10 @@ const Dashboard = () => {
                                                 <Card raised>
                                                     <CardContent>
                                                         <Typography variant="h5">
-                                                            $ 4334
+                                                            $
+                                                            {
+                                                                summary.ordersPrice
+                                                            }
                                                             {/* summary.ordersPrice */}
                                                         </Typography>
                                                         <Typography>
@@ -87,8 +112,9 @@ const Dashboard = () => {
                                                 <Card raised>
                                                     <CardContent>
                                                         <Typography variant="h5">
-                                                            4
-                                                            {/* summary.ordersCount */}
+                                                            {
+                                                                summary.ordersCount
+                                                            }
                                                         </Typography>
                                                         <Typography>
                                                             Orders
@@ -109,10 +135,9 @@ const Dashboard = () => {
                                                 <Card raised>
                                                     <CardContent>
                                                         <Typography variant="h5">
-                                                            34
-                                                            {/* {
+                                                            {
                                                                 summary.productsCount
-                                                            } */}
+                                                            }
                                                         </Typography>
                                                         <Typography>
                                                             Products
@@ -133,8 +158,7 @@ const Dashboard = () => {
                                                 <Card raised>
                                                     <CardContent>
                                                         <Typography variant="h5">
-                                                            54
-                                                            {/* {summary.usersCount} */}
+                                                            {summary.usersCount}
                                                         </Typography>
                                                         <Typography>
                                                             Users
@@ -165,13 +189,17 @@ const Dashboard = () => {
                                 <ListItem>
                                     <Bar
                                         data={{
-                                            labels: [100, 200, 300, 400],
+                                            labels: summary.salesData.map(
+                                                (x) => x._id
+                                            ),
                                             datasets: [
                                                 {
                                                     label: "Sales",
                                                     backgroundColor:
                                                         "rgba(162, 222, 208, 1)",
-                                                    data: [120, 220, 320, 420],
+                                                    data: summary.salesData.map(
+                                                        (x) => x.totalSales
+                                                    ),
                                                 },
                                             ],
                                         }}

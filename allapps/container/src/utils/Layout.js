@@ -2,9 +2,9 @@ import React from "react";
 import { Box, Paper, Container } from "@mui/material";
 import { useHistory } from "react-router-dom";
 import Carousel from "react-material-ui-carousel";
-import SlidingCart from "../components/SlidingCart";
 import Appbar from "../components/appbar";
 import Footer from "../components/footer";
+import SearchBox from "../components/search/index";
 
 const items = [
     {
@@ -19,26 +19,6 @@ const items = [
 ];
 
 const Layout = ({ children }) => {
-    const navigate = useHistory();
-    const [open, setOpen] = React.useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
-
-    const [cartWidth, setcartWidth] = React.useState("");
-    const [cartNumber, setCartNumber] = React.useState(10);
-
-
-    const OpenCart = () => {
-        setcartWidth("340px");
-    };
-
-    const hideCart = () => {
-        setcartWidth("0px");
-    };
-
-
-    const isAdmin = true;
-
     React.useEffect(() => {
         window.scrollTo(0, 500);
     }, []);
@@ -47,7 +27,7 @@ const Layout = ({ children }) => {
         <>
             <Box>
                 <Appbar />
-                <SlidingCart hideCart={hideCart} cartWidt={cartWidth} />
+                <SearchBox />
                 <Container>
                     <Carousel
                         sx={{ mt: 4, borderRadius: "6px" }}

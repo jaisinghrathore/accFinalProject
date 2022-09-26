@@ -1,23 +1,34 @@
 import React from "react";
-import { Container, Grid } from "@mui/material";
+import { Container, Grid, Button } from "@mui/material";
 import { products } from "../../data";
 import SingleProduct from "./SingleProduct";
 import { useTheme } from "@mui/material/styles";
 import { useMediaQuery } from "@mui/material";
 import SingleProductDesktop from "./SingleProductDesktop";
-import product from "../../styles/product";
+import { useHistory } from "react-router-dom";
+import { useReactQueryInterseptor } from "../../utils/ReactQueryInterseptor";
 
 export default function Products() {
     const theme = useTheme();
     const matches = useMediaQuery(theme.breakpoints.down("md"));
+    const navigate = useHistory();
+    const page = 9;
+    // data fetching
+    const [isLoading, data, isError, error] = useReactQueryInterseptor(
+        ["products", page],
+        `/admin/products?limit=${page}`
+    );
 
-    const renderProducts = products.map((product) => (
+    if (isLoading) return "Loading...";
+    if (isError) return error;
+
+    const renderProducts = data?.data.map((product) => (
         <Grid
             item
             key={product.id}
             xs={2}
             sm={4}
-            mduseDialogModal={4}
+            md={4}
             display="flex"
             flexDirection={"column"}
             alignItems="center">
@@ -37,6 +48,11 @@ export default function Products() {
                 sx={{ margin: `20px 4px 10px 4px` }}
                 columns={{ xs: 4, sm: 8, md: 12 }}>
                 {renderProducts}
+                <Button
+                    onClick={() => navigate.push("/products")}
+                    sx={{ marginTop: "20px" }}>
+                    more.
+                </Button>
             </Grid>
         </Container>
     );

@@ -2,6 +2,7 @@ import axios from "axios";
 import { Link, useHistory } from "react-router-dom";
 import React, { useEffect, useContext, useReducer } from "react";
 import DashboardNav from "../../components/DashboardNav";
+import { contextAuthStore } from "../../utils/store";
 
 import {
     CircularProgress,
@@ -55,44 +56,8 @@ function reducer(state, action) {
 
 function AdminProducts() {
     const router = useHistory();
+    const { state } = contextAuthStore();
 
-    const createHandler = async () => {
-        // if (!window.confirm("Are you sure?")) {
-        //     return;
-        // }
-        // try {
-        //     dispatch({ type: "CREATE_REQUEST" });
-        //     const { data } = await axios.post(
-        //         `/api/admin/products`,
-        //         {},
-        //         {
-        //             headers: { authorization: `Bearer ${userInfo.token}` },
-        //         }
-        //     );
-        //     dispatch({ type: "CREATE_SUCCESS" });
-        //     alert("Product created successfully");
-        //     router.push(`/admin/product/${data.product._id}`);
-        // } catch (err) {
-        //     dispatch({ type: "CREATE_FAIL" });
-        //     alert(getError(err));
-        // }
-    };
-    const deleteHandler = async (productId) => {
-        // if (!window.confirm("Are you sure?")) {
-        //     return;
-        // }
-        // try {
-        //     dispatch({ type: "DELETE_REQUEST" });
-        //     await axios.delete(`/api/admin/products/${productId}`, {
-        //         headers: { authorization: `Bearer ${userInfo.token}` },
-        //     });
-        //     dispatch({ type: "DELETE_SUCCESS" });
-        //     console.log("Product deleted successfully");
-        // } catch (err) {
-        //     dispatch({ type: "DELETE_FAIL" });
-        //     console.log(getError(err));
-        // }
-    };
     const [
         {
             loading,
@@ -105,28 +70,87 @@ function AdminProducts() {
         dispatch,
     ] = useReducer(reducer, {
         loading: false,
-        products: [
-            {
-                _id: "62e6a4e894fc0eeee311ae00",
-                name: "jai",
-                price: 344,
-                countInStock: 34,
-                rating: 4.5,
-                category: "bangles",
-                createdAt: "2022-08-01T14:52:36.608+00:00",
-                totalPrice: "423",
-            },
-        ],
+        products: [],
         error: "",
     });
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                dispatch({ type: "FETCH_REQUEST" });
+                const { data } = await axios.get(
+                    `http://localhost:8000/admin/products`,
+                    {
+                        headers: {
+                            authorization: `Bearer ${state.GlazierToken.token}`,
+                        },
+                    }
+                );
+                dispatch({ type: "FETCH_SUCCESS", payload: data });
+            } catch (err) {
+                dispatch({ type: "FETCH_FAIL", payload: err });
+            }
+        };
+        if (successDelete) {
+            dispatch({ type: "DELETE_RESET" });
+        } else {
+            fetchData();
+        }
+    }, [successDelete]);
+
+    const createHandler = async () => {
+        if (!window.confirm("Are you sure?")) {
+            return;
+        }
+        try {
+            dispatch({ type: "CREATE_REQUEST" });
+            const { data } = await axios.post(
+                `http://localhost:8000/admin/add_products`,
+                {},
+                {
+                    headers: {
+                        authorization: `Bearer ${state.GlazierToken.token}`,
+                    },
+                }
+            );
+            dispatch({ type: "CREATE_SUCCESS" });
+            alert("Product created successfully");
+            router.push(`/admin/product/${data.product._id}`);
+        } catch (err) {
+            dispatch({ type: "CREATE_FAIL" });
+            alert(err);
+        }
+    };
+    const deleteHandler = async (productId) => {
+        if (!window.confirm("Are you sure?")) {
+            return;
+        }
+        try {
+            dispatch({ type: "DELETE_REQUEST" });
+            const data = await axios.delete(
+                `http://localhost:8000/admin/delete_products/${productId}`,
+                {
+                    headers: {
+                        authorization: `Bearer ${state.GlazierToken.token}`,
+                    },
+                }
+            );
+            dispatch({ type: "DELETE_SUCCESS" });
+        } catch (err) {
+            dispatch({ type: "DELETE_FAIL" });
+            console.log(err);
+        }
+    };
+
     // React.useEffect(() => {
-    //     if (!userInfo) {
-    //         router.push("/login");
-    //     }
-    //     if (userInfo?.isAdmin == "false") {
-    //         router.push("/");
-    //     }
-    // }, [userInfo]);
+    // if (!userInfo) {
+    //     router.push("/login");
+    // }
+    // if (userInfo?.isAdmin == "false") {
+    //     router.push("/");
+    // }
+    // console.log(state.GlazierToken);
+    // }, [state.GlazierToken]);
 
     return (
         <Container>

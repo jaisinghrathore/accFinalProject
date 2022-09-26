@@ -78,6 +78,7 @@ const Contact = () => {
                                         sm: 40,
                                         xs: 30,
                                     },
+                                    color: "#67645E",
                                 }}>
                                 Contact.
                             </Typography>
@@ -135,7 +136,7 @@ const Contact = () => {
                                             type="submit"
                                             id="submit"
                                             style={{
-                                                backgroundColor: "black",
+                                                backgroundColor: "#67645E",
                                                 color: "white",
                                                 padding: "8px 30px",
                                                 border: "none",

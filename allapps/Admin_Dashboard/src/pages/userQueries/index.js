@@ -18,6 +18,8 @@ import {
     TableCell,
     TableBody,
 } from "@mui/material";
+import { contextAuthStore } from "../../utils/store";
+import axios from "axios";
 
 function reducer(state, action) {
     switch (action.type) {
@@ -39,19 +41,35 @@ function reducer(state, action) {
 
 const UserQueries = () => {
     const router = useHistory();
+    const { state } = contextAuthStore();
+
     const [{ loading, error, userQueries }, dispatch] = useReducer(reducer, {
         loading: false,
-        userQueries: [
-            {
-                email: "jairqthore@gmial.com",
-                name: "jai",
-                subject: "IT",
-                createdAt: "2022-08-01T14:52:36.608+00:00",
-                message: "This is me jai singh rathore.",
-            },
-        ],
+        userQueries: [],
         error: "",
     });
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                dispatch({ type: "FETCH_REQUEST" });
+                const { data } = await axios.get(
+                    `http://localhost:8000/message/contact`,
+                    {
+                        headers: {
+                            authorization: `Bearer ${state.GlazierToken.token}`,
+                        },
+                    }
+                );
+                dispatch({ type: "FETCH_SUCCESS", payload: data });
+            } catch (err) {
+                console.log(err);
+                dispatch({ type: "FETCH_FAIL", payload: err });
+            }
+        };
+
+        fetchData();
+    }, []);
 
     return (
         <Container>

@@ -21,7 +21,7 @@ import {
 } from "../../styles/appbar";
 import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { getUser } from "../../utils/Redux/actions/getUserAction";
+import { userLogout } from "../../utils/Redux/actions/userLogout";
 import Cookies from "js-cookie";
 
 const Actions = ({ matches }) => {
@@ -37,8 +37,10 @@ const Actions = ({ matches }) => {
     };
 
     function signOut() {
-        dispatch(getUser());
         Cookies.remove("GlazierToken");
+        setTimeout(() => {
+            dispatch(userLogout());
+        }, 500);
         navigate.push("/auth/removeUser");
     }
 
@@ -66,9 +68,11 @@ const Actions = ({ matches }) => {
                             color: matches && Colors.secondary,
                         }}>
                         <Box sx={{ position: "relative", right: "10px" }}>
-                            <Badge badgeContent="32" color="primary">
-                                <ShoppingCartIcon onClick={OpenCart} />
-                            </Badge>
+                            <ShoppingCartIcon
+                                sx={{ color: "#6F6E6D" }}
+                                // onClick={OpenCart}
+                                onClick={() => navigate.push("/cart")}
+                            />
                         </Box>
                     </ListItemIcon>
                 </ListItemButton>
@@ -83,7 +87,7 @@ const Actions = ({ matches }) => {
                             justifyContent: "center",
                             color: matches && Colors.secondary,
                         }}>
-                        <FavoriteIcon />
+                        <FavoriteIcon sx={{ color: "#6F6E6D" }} />
                     </ListItemIcon>
                 </ListItemButton>
                 <Divider orientation="vertical" flexItem />
@@ -97,7 +101,7 @@ const Actions = ({ matches }) => {
                             justifyContent: "center",
                             color: matches && Colors.secondary,
                         }}>
-                        <PersonIcon />
+                        <PersonIcon sx={{ colors: "#6F6E6D" }} />
                         <Modal
                             open={open}
                             onClose={handleClose}
@@ -130,7 +134,7 @@ const Actions = ({ matches }) => {
                                     }}
                                     onClick={() => {
                                         handleClose();
-                                        navigate.push("/profile");
+                                        navigate.push("/auth/profile");
                                     }}>
                                     Profile
                                 </Typography>
@@ -192,6 +196,7 @@ const Actions = ({ matches }) => {
                                     margin: "0 30px",
                                     marginLeft: "6px",
                                     cursor: "pointer",
+                                    color: "#6F6E6D",
                                 }}>
                                 {username.split("@")[0].slice(0, 5)}...
                             </Typography>
@@ -204,6 +209,7 @@ const Actions = ({ matches }) => {
                                     margin: "0 30px",
                                     marginLeft: "6px",
                                     cursor: "pointer",
+                                    color: "#6F6E6D",
                                 }}
                                 onClick={() => navigate.push("/auth")}>
                                 Log In

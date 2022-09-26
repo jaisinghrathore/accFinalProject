@@ -8,7 +8,6 @@ const DashColor = {
 };
 
 const DashboardNav = ({ active }) => {
-    
     return (
         <Card>
             <List>

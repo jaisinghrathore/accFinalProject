@@ -15,7 +15,7 @@ import {
     Container,
 } from "@mui/material";
 import DashboardNav from "../../components/DashboardNav";
-
+import { contextAuthStore } from "../../utils/store";
 import { Controller, useForm } from "react-hook-form";
 
 function reducer(state, action) {
@@ -57,6 +57,8 @@ function reducer(state, action) {
 }
 function ProductEdit() {
     const location = useLocation();
+    const { state } = contextAuthStore();
+
     const productId = location.pathname.split("/")[3];
 
     const [{ loading, error, loadingUpdate, loadingUpload }, dispatch] =
@@ -72,62 +74,63 @@ function ProductEdit() {
     } = useForm();
     const router = useHistory();
 
-    // useEffect(() => {
-    //     if (!userInfo) {
-    //         return router.push("/login");
-    //     } else {
-    //         const fetchData = async () => {
-    //             try {
-    //                 dispatch({ type: "FETCH_REQUEST" });
-    //                 const { data } = await axios.get(
-    //                     `/api/admin/products/${productId}`,
-    //                     {
-    //                         headers: {
-    //                             authorization: `Bearer ${userInfo.token}`,
-    //                         },
-    //                     }
-    //                 );
-    //                 dispatch({ type: "FETCH_SUCCESS" });
-    //                 setValue("name", data.name);
+    useEffect(() => {
+        if (!state.GlazierToken) {
+            return router.push("/login");
+        } else {
+            const fetchData = async () => {
+                try {
+                    dispatch({ type: "FETCH_REQUEST" });
+                    const { data } = await axios.get(
+                        `http://localhost:8000/admin/products/${productId}`,
+                        {
+                            headers: {
+                                authorization: `Bearer ${state.GlazierToken.token}`,
+                            },
+                        }
+                    );
 
-    //                 setValue("price", data.price);
-    //                 setValue("image", data.image);
-    //                 setValue("featuredImage", data.featuredImage);
-    //                 setValue("category", data.category);
+                    dispatch({ type: "FETCH_SUCCESS" });
+                    setValue("name", data.name);
 
-    //                 setValue("countInStock", data.countInStock);
-    //                 setValue("description", data.description);
-    //             } catch (err) {
-    //                 dispatch({ type: "FETCH_FAIL", payload: getError(err) });
-    //             }
-    //         };
-    //         fetchData();
-    //     }
-    // }, []);
+                    setValue("price", data.price);
+                    setValue("image", data.image);
+                    setValue("featuredImage", data.featuredImage);
+                    setValue("category", data.category);
+
+                    setValue("countInStock", data.countInStock);
+                    setValue("description", data.description);
+                } catch (err) {
+                    dispatch({ type: "FETCH_FAIL", payload: getError(err) });
+                }
+            };
+            fetchData();
+        }
+    }, []);
 
     const uploadHandler = async (e, imageField = "image") => {
-        // const file = e.target.files[0];
-        // const bodyFormData = new FormData();
-        // bodyFormData.append("file", file);
-        // try {
-        //     dispatch({ type: "UPLOAD_REQUEST" });
-        //     const { data } = await axios.post(
-        //         "/api/admin/upload",
-        //         bodyFormData,
-        //         {
-        //             headers: {
-        //                 "Content-Type": "multipart/form-data",
-        //                 authorization: `Bearer ${userInfo.token}`,
-        //             },
-        //         }
-        //     );
-        //     dispatch({ type: "UPLOAD_SUCCESS" });
-        //     setValue(imageField, data.secure_url);
-        //     alert("File uploaded successfully");
-        // } catch (err) {
-        //     dispatch({ type: "UPLOAD_FAIL", payload: getError(err) });
-        //     alert(getError(err));
-        // }
+        const file = e.target.files[0];
+        const bodyFormData = new FormData();
+        bodyFormData.append("file", file);
+        try {
+            dispatch({ type: "UPLOAD_REQUEST" });
+            const { data } = await axios.post(
+                "http://localhost:8000/admin/upload",
+                bodyFormData,
+                {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                        authorization: `Bearer ${state.GlazierToken.token}`,
+                    },
+                }
+            );
+            dispatch({ type: "UPLOAD_SUCCESS" });
+            setValue(imageField, data.secure_url);
+            alert("File uploaded successfully");
+        } catch (err) {
+            dispatch({ type: "UPLOAD_FAIL", payload: getError(err) });
+            alert(getError(err));
+        }
     };
 
     const submitHandler = async ({
@@ -138,27 +141,31 @@ function ProductEdit() {
         countInStock,
         description,
     }) => {
-        // try {
-        //     dispatch({ type: "UPDATE_REQUEST" });
-        //     await axios.put(
-        //         `/api/admin/products/${productId}`,
-        //         {
-        //             name,
-        //             price,
-        //             category,
-        //             image,
-        //             countInStock,
-        //             description,
-        //         },
-        //         { headers: { authorization: `Bearer ${userInfo.token}` } }
-        //     );
-        //     dispatch({ type: "UPDATE_SUCCESS" });
-        //     alert("Product updated successfully");
-        //     router.push("/admin/products");
-        // } catch (err) {
-        //     dispatch({ type: "UPDATE_FAIL", payload: getError(err) });
-        //     alert(getError(err));
-        // }
+        try {
+            dispatch({ type: "UPDATE_REQUEST" });
+            await axios.put(
+                `http://localhost:8000/admin/update_products/${productId}`,
+                {
+                    name,
+                    price,
+                    category,
+                    image,
+                    countInStock,
+                    description,
+                },
+                {
+                    headers: {
+                        authorization: `Bearer ${state.GlazierToken.token}`,
+                    },
+                }
+            );
+            dispatch({ type: "UPDATE_SUCCESS" });
+            alert("Product updated successfully");
+            router.push("/admin/products");
+        } catch (err) {
+            dispatch({ type: "UPDATE_FAIL", payload: getError(err) });
+            alert(getError(err));
+        }
     };
 
     return (

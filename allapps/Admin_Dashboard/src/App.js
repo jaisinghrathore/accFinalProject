@@ -14,11 +14,11 @@ const App = ({ history, userToken }) => {
             });
         }
     }, []);
-    React.useEffect(() => {
-        if (!state?.GlazierToken?.isAdmin) {
-            history.push("/");
-        }
-    }, [state.GlazierToken]);
+
+    console.log(state.GlazierToken);
+    // React.useEffect(() => {
+    //     console.log(state.GlazierToken.isAdmin);
+    // }, [state.GlazierToken]);
 
     return (
         <>

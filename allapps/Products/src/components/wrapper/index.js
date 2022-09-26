@@ -8,11 +8,13 @@ import {
     WrapperImage,
     WrapperShopButton,
     WrapperTitle,
-} from "../../styles//wrapper";
+} from "../../styles/wrapper";
+import { useHistory } from "react-router-dom";
 
 export default function Wrapper() {
     const theme = useTheme();
     const matches = useMediaQuery(theme.breakpoints.down("md"));
+    const history = useHistory();
 
     return (
         <WrapperContainer>
@@ -29,7 +31,11 @@ export default function Wrapper() {
                     ON-THE-GO.
                 </WrapperDescription>
 
-                <WrapperShopButton color="primary">Shop Now</WrapperShopButton>
+                <WrapperShopButton
+                    color="primary"
+                    onClick={() => history.push("/products")}>
+                    Shop Now
+                </WrapperShopButton>
             </WrapperContent>
         </WrapperContainer>
     );

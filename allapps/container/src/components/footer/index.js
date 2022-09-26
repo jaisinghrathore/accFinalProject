@@ -16,8 +16,10 @@ import TwitterIcon from "@mui/icons-material/Twitter";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import { SubscribeTf, FooterTitle } from "../../styles/footer";
 import SendIcon from "@mui/icons-material/Send";
+import { useHistory } from "react-router-dom";
 
 function Footer() {
+    const history = useHistory();
     return (
         <Box
             sx={{
@@ -109,6 +111,7 @@ function Footer() {
                     </FooterTitle>
                     <Stack>
                         <Button
+                            onClick={()=>history.push("/contact")}
                             startIcon={
                                 <SendIcon sx={{ color: Colors.white }} />
                             }

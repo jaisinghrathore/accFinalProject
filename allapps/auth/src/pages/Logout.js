@@ -6,7 +6,9 @@ const Logout = () => {
     const { state, dispatch } = contextAuthStore();
     const history = useHistory();
     dispatch({ type: "USER_LOGOUT" });
-    history.push("/");
+    if (!state.GlazierToken) {
+        history.push("/");
+    }
     return <></>;
 };
 

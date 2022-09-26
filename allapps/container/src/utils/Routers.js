@@ -12,7 +12,7 @@ const Routers = () => {
                 <Route path="/auth" component={Authentication}></Route>
                 <Route path="/admin" component={Admin}></Route>
                 <Route path="/contact" component={Contact}></Route>
-                <Route exact path="/" component={ProductsMF}></Route>
+                <Route path="/" component={ProductsMF}></Route>
             </Switch>
         </>
     );

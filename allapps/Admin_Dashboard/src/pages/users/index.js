@@ -1,6 +1,7 @@
 import axios from "axios";
 import { Link, useHistory } from "react-router-dom";
-import React, { useEffect, useContext, useReducer } from "react";
+import React, { useEffect, useReducer } from "react";
+import { contextAuthStore } from "../../utils/store";
 import {
     CircularProgress,
     Grid,
@@ -49,21 +50,59 @@ function reducer(state, action) {
 
 function AdminUsers() {
     const router = useHistory();
-
+    const { state } = contextAuthStore();
     const [{ loading, error, users, successDelete, loadingDelete }, dispatch] =
         useReducer(reducer, {
-            loading: false,
-            users: [
-                {
-                    _id: "3fsdfsdfsdfsdffwerr5345345retetret4tr",
-                    name: "jai",
-                    email: "jairqthore@gmail.com",
-                },
-            ],
+            loading: true,
+            users: [],
             error: "",
         });
 
-    const deleteHandler = () => {};
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                dispatch({ type: "FETCH_REQUEST" });
+                const { data } = await axios.get(
+                    `http://localhost:8000/users`,
+                    {
+                        headers: {
+                            authorization: `Bearer ${state.GlazierToken.token}`,
+                        },
+                    }
+                );
+                dispatch({ type: "FETCH_SUCCESS", payload: data });
+            } catch (err) {
+                dispatch({ type: "FETCH_FAIL", payload: getError(err) });
+            }
+        };
+        if (successDelete) {
+            dispatch({ type: "DELETE_RESET" });
+        } else {
+            fetchData();
+        }
+    }, [successDelete]);
+
+    const deleteHandler = async (userId) => {
+        if (!window.confirm("Are you sure?")) {
+            return;
+        }
+        try {
+            dispatch({ type: "DELETE_REQUEST" });
+            await axios.delete(
+                `http://localhost:8000/registration/register/${userId}`,
+                {
+                    headers: {
+                        authorization: `Bearer ${state.GlazierToken.token}`,
+                    },
+                }
+            );
+            dispatch({ type: "DELETE_SUCCESS" });
+            alert("User deleted successfully");
+        } catch (err) {
+            dispatch({ type: "DELETE_FAIL" });
+            alert(getError(err));
+        }
+    };
 
     // React.useEffect(() => {
     //     if (!userInfo) {
@@ -123,14 +162,13 @@ function AdminUsers() {
                                                                 )}
                                                             </TableCell>
                                                             <TableCell>
-                                                                {user.name}
+                                                                {user.username}
                                                             </TableCell>
                                                             <TableCell>
                                                                 {user.email}
                                                             </TableCell>
                                                             <TableCell>
-                                                                {user.isAdmin ==
-                                                                "true"
+                                                                {user.isAdmin
                                                                     ? "YES"
                                                                     : "NO"}
                                                             </TableCell>

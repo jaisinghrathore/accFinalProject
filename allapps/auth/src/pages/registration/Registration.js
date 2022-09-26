@@ -9,7 +9,6 @@ import { useHistory } from "react-router-dom";
 const Registration = () => {
     const { state, dispatch } = contextAuthStore();
     const router = useHistory();
-
     const [inpVal, setInpVal] = React.useState({
         username: "",
         email: "",
@@ -30,7 +29,7 @@ const Registration = () => {
         if (data?.response?.data.error) {
             alert(data?.response.data.error);
         }
-        if (data?.data) {
+        if (data?.data._id) {
             dispatch({ type: "USER_REGISTER", payload: data.data });
             router.push("/");
         }

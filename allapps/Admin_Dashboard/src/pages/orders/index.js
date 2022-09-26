@@ -1,5 +1,6 @@
 import React, { useEffect, useContext, useReducer } from "react";
 import { Link, useHistory } from "react-router-dom";
+import { contextAuthStore } from "../../utils/store";
 import DashboardNav from "../../components/DashboardNav";
 import {
     CircularProgress,
@@ -39,22 +40,56 @@ function reducer(state, action) {
 
 const Orders = () => {
     const router = useHistory();
+    const { state } = contextAuthStore();
     const [{ loading, error, orders }, dispatch] = useReducer(reducer, {
-        loading: false,
-        orders: [
-            {
-                _id: "62e6a4e894fc0eeee311ae00",
-                user: { name: "jai" },
-                paidAt: false,
-                deliveredAt: "2022-08-01T14:52:36.608+00:00",
-                createdAt: "2022-08-01T14:52:36.608+00:00",
-                totalPrice: "423",
-            },
-        ],
+        loading: true,
+        orders: [],
         error: "",
     });
 
-    const delivered = () => {};
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                dispatch({ type: "FETCH_REQUEST" });
+                const { data } = await axios.get(
+                    `http://localhost:8000/admin/orders`,
+                    {
+                        headers: {
+                            authorization: `Bearer ${state.GlazierToken.token}`,
+                        },
+                    }
+                );
+                dispatch({ type: "FETCH_SUCCESS", payload: data });
+            } catch (err) {
+                dispatch({ type: "FETCH_FAIL", payload: getError(err) });
+            }
+        }
+        fetchData();
+    }, []);
+
+    const delivered = async (id) => {
+        const a = confirm("Confirm");
+        if (a) {
+            try {
+                const { data } = await axios.put(
+                    `http://localhost:8000/admin/orders/delivered`,
+                    { id },
+                    {
+                        headers: {
+                            authorization: `Bearer ${userInfo.token}`,
+                        },
+                    }
+                );
+                if (data) {
+                    window.location.reload();
+                } else {
+                    alert("Not Deleted");
+                }
+            } catch (err) {
+                alert(getError(err));
+            }
+        }
+    };
 
     //   React.useEffect(() => {
     //       if (!userInfo) {
@@ -142,7 +177,7 @@ const Orders = () => {
                                                                     textDecoration:
                                                                         "none",
                                                                 }}
-                                                                to={`/order/${order._id}`}>
+                                                                to={`admin//order/${order._id}`}>
                                                                 <Button variant="contained">
                                                                     Details
                                                                 </Button>

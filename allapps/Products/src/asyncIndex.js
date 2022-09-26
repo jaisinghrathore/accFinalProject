@@ -2,8 +2,13 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import { createMemoryHistory, createBrowserHistory } from "history";
+import AuthStoreProvider from "./utils/store";
 
-const mount = (element, { onNavigate, defaultHistory, initialPath }) => {
+const mount = (
+    element,
+    { onNavigate, defaultHistory, initialPath },
+    userToken
+) => {
     const history =
         defaultHistory ||
         createMemoryHistory({
@@ -14,7 +19,11 @@ const mount = (element, { onNavigate, defaultHistory, initialPath }) => {
         history.listen(onNavigate);
     }
     const root = ReactDOM.createRoot(element);
-    root.render(<App history={history} />);
+    root.render(
+        <AuthStoreProvider>
+            <App history={history} userToken={userToken} />
+        </AuthStoreProvider>
+    );
 
     return {
         onParentNavigate({ pathname: nextPath }) {
