@@ -1,18 +1,19 @@
 import React from "react";
+import { Router } from "react-router-dom";
 import "../styles/App.css";
 import { Container, Typography, Box, Stack } from "@mui/material";
 import { ThemeProvider } from "@mui/system";
 import theme from "../styles/theme";
 import Wrapper from "../components/wrapper";
-import Products from "../components/products";
+import Products from "../components/productsList";
 import { UIProvider } from "../ui/index";
 import Promotions from "../components/promotions/index";
 import SearchBox from "../components/search";
 import { useEffect } from "react";
 
-function Home({ history }) {
+function ProductList() {
     useEffect(() => {
-        document.title = "React Material UI - Home";
+        document.title = "React Material UI - Products";
     }, []);
     return (
         <ThemeProvider theme={theme}>
@@ -24,9 +25,6 @@ function Home({ history }) {
                 }}>
                 <Stack>
                     <UIProvider>
-                        <Wrapper />
-                        <Promotions />
-                        <SearchBox />
                         <Box
                             display="flex"
                             justifyContent="center"
@@ -41,4 +39,4 @@ function Home({ history }) {
     );
 }
 
-export default Home;
+export default React.memo(ProductList);

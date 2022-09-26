@@ -7,14 +7,14 @@ import Shipping from "../components/Shipping/index";
 import OrderPlaced from "../components/OrderPlaced/index";
 import PlaceOrder from "../components/PlaceOrder/index";
 import OrderHistory from "../components/OrderHistory/OrderHistory";
+import Products from "../pages/Products";
 
 const Routers = () => {
-    const { state } = contextAuthStore();
-
     return (
         <>
             <Switch>
                 <Route exact path="/" component={Home} />
+                <Route exact path="/products" component={Products} />
                 <Route exact path="/cart" component={Cart} />
                 <Route exact path="/shipping" component={Shipping} />
                 <Route exact path="/placeOrder" component={PlaceOrder} />

@@ -23,10 +23,9 @@ const Login = () => {
         if (data?.data) {
             dispatch({ type: "USER_LOGIN", payload: data?.data });
             router.push("/");
-
+            window.location.reload();
         }
     }, [data]);
-
 
     const onError = React.useMemo(() => {
         const errors = {};

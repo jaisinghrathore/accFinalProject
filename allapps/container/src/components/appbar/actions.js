@@ -41,7 +41,8 @@ const Actions = ({ matches }) => {
         setTimeout(() => {
             dispatch(userLogout());
         }, 500);
-        navigate.push("/auth/removeUser");
+        // navigate.push("/auth/removeUser");
+        window.location.reload();
     }
 
     const hideCart = () => {
