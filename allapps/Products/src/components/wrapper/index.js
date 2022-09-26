@@ -18,7 +18,7 @@ export default function Wrapper() {
 
     return (
         <WrapperContainer>
-            <WrapperImage src="/public/images/wrapper/banner.png" />
+            <WrapperImage src="https://res.cloudinary.com/dlzl3yw0w/image/upload/v1664169748/sfrx54c6uamjqrwpo7xq.webp" />
             <WrapperContent>
                 <Typography variant="h6">
                     A new PHILOSOPHY on JEWERLY
