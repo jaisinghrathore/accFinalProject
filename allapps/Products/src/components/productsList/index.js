@@ -22,7 +22,7 @@ export default function Products() {
     if (isLoading) return "Loading...";
     if (isError) return error;
 
-    const renderProducts = data?.data.map((product) => (
+    const renderProducts = data?.data.reverse().map((product) => (
         <Grid
             item
             key={product.id}

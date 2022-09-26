@@ -144,7 +144,7 @@ export default function profile() {
                         </Typography>
                         <form onSubmit={handleSubmit(submitHandler)}>
                             <List>
-                                <ListItem>
+                                {/* <ListItem>
                                     <Controller
                                         name="name"
                                         control={control}
@@ -171,7 +171,7 @@ export default function profile() {
                                                 }
                                                 {...field}></TextField>
                                         )}></Controller>
-                                </ListItem>
+                                </ListItem> */}
 
                                 <ListItem>
                                     <Controller

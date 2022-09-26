@@ -28,8 +28,8 @@ const Layout = ({ children }) => {
             <Box>
                 <Appbar />
                 <SearchBox />
-                <Container>
-                    <Carousel
+                <Container mb={3}>
+                    {/* <Carousel
                         sx={{ mt: 4, borderRadius: "6px" }}
                         autoPlay
                         animation="slide"
@@ -44,7 +44,7 @@ const Layout = ({ children }) => {
                                 />
                             </Paper>
                         ))}
-                    </Carousel>
+                    </Carousel> */}
                     {/* All Pages */}
                     {children}
                 </Container>
