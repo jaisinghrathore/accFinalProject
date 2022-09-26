@@ -40,9 +40,9 @@ const Actions = ({ matches }) => {
         Cookies.remove("GlazierToken");
         setTimeout(() => {
             dispatch(userLogout());
+            window.location.reload();
         }, 500);
         // navigate.push("/auth/removeUser");
-        window.location.reload();
     }
 
     const hideCart = () => {
