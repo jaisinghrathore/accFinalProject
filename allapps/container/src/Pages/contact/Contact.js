@@ -39,16 +39,10 @@ const Contact = () => {
 
     const onSubmit = async (values, formik) => {
         try {
-            const { data } = await axios.post(
-                "/api/postContactUs",
-                { ...values },
-                {
-                    headers: {
-                        authorization: `Bearer "$userInfo.token}"`,
-                    },
-                }
-            );
-            alert(data);
+            const { data } = await axios.post("http://localhost:8000/message/contact", {
+                ...values,
+            });
+            alert("Message sended");
             formik.setSubmitting(false);
             formik.resetForm();
         } catch (e) {

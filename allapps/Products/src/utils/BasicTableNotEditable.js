@@ -15,9 +15,7 @@ import {
 import { Link } from "react-router-dom";
 import { contextAuthStore } from "./store";
 
-function BasicTableNotEditable() {
-    const { state, dispatch } = contextAuthStore();
-
+function BasicTableNotEditable({ order }) {
     return (
         <TableContainer component={Paper}>
             <Typography
@@ -39,7 +37,7 @@ function BasicTableNotEditable() {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {state.order.map((row) => (
+                    {order?.orderItems.map((row) => (
                         <TableRow
                             key={row.id}
                             sx={{
@@ -50,13 +48,13 @@ function BasicTableNotEditable() {
                             <TableCell component="th" scope="row">
                                 <Link to={`/product/${row.id}`}>
                                     <img
-                                        src={row.thumbnail}
-                                        alt={row.title}
+                                        src={row.image}
+                                        alt={row.name}
                                         width={50}
                                         height={50}></img>
                                 </Link>
                             </TableCell>
-                            <TableCell>{row.title}</TableCell>
+                            <TableCell>{row.name}</TableCell>
                             <TableCell>
                                 {/* select */}
                                 <Typography>{row.quantity}</Typography>

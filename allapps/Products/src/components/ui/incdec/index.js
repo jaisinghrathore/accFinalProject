@@ -7,9 +7,13 @@ import { useState } from "react";
 import { clamp } from "./clamp";
 import { Colors } from "../../../styles/theme";
 
-export default function IncDec() {
+export default function IncDec({ getQuantity }) {
     const clampV = clamp(1, 10);
     const [value, setValue] = useState(1);
+
+    React.useEffect(() => {
+        getQuantity(value);
+    }, [value]);
 
     return (
         <Box display="flex">

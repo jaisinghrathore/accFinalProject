@@ -14,10 +14,10 @@ import CheckoutWizard from "../../utils/CheckoutWizard";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useHistory } from "react-router-dom";
 import Cookies from "js-cookie";
+import axios from "axios";
 
 function PlaceOrder() {
     const { state, dispatch } = contextAuthStore();
-    console.log(state);
     const router = useHistory();
     const {
         GlazierToken: userInfo,
@@ -49,14 +49,33 @@ function PlaceOrder() {
 
     const placeOrderHandler = async () => {
         const a = window.confirm("Are you sure you want to order this?");
-        if (a) {
-            dispatch({
-                type: "PLACE_ORDER",
-                payload: [...state.cart.cartItems],
-            });
+        if (!a) return;
+        try {
+            setLoading(true);
+            const val = await axios.post(
+                "http://localhost:8000/admin/send_order",
+                {
+                    user: userInfo._id,
+                    orderItems: cartItems,
+                    shippingAddress,
+                    paymentMethod: "cash",
+                    shippingPrice,
+                    taxPrice: "0",
+                    totalPrice,
+                },
+                {
+                    headers: {
+                        authorization: `Bearer ${userInfo.token}`,
+                    },
+                }
+            );
+            setLoading(false);
+
             dispatch({ type: "CLEAR_CART" });
             Cookies.remove("cartItems");
-            router.push(`/orderplaced`);
+            router.push(`/orderplaced/${val?.data.id}`);
+        } catch (err) {
+            console.log(err);
         }
     };
 

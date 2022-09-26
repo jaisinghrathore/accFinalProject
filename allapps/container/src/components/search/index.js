@@ -5,6 +5,7 @@ import { Colors } from "../../styles/theme";
 import SearchIcon from "@mui/icons-material/Search";
 import CloseIcon from "@mui/icons-material/Close";
 import { useUIContext } from "../../context/ui";
+import Debounce from "./Debounce";
 
 const SearchBoxContainer = styled(Box)(({ theme }) => ({
     position: "absolute",
@@ -39,6 +40,26 @@ const SearchField = styled(TextField)(({ theme }) => ({
 
 export default function SearchBox() {
     const { showSearchBox, setShowSearchBox } = useUIContext();
+    const [searchValue, setSearchValue] = React.useState("");
+
+    let timeout;
+    const changeHandler = (e) => {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
+            setSearchValue(e.target.value);
+        }, 700);
+    };
+
+    const KeyPressHandler = (event) => {
+        if (event.key === "Enter") {
+            navigate(`products?search=${event.target.value}`);
+            event.target.value = "";
+        }
+    };
+
+    const closeBox = () => {
+        setSearchValue("");
+    };
     return (
         <Slide direction="down" in={showSearchBox} timeout={500}>
             <SearchBoxContainer>
@@ -46,6 +67,8 @@ export default function SearchBox() {
                     variant="standard"
                     fullWidth
                     placeholder="search..."
+                    onChange={changeHandler}
+                    onKeyPress={KeyPressHandler}
                 />
                 <IconButton>
                     <SearchIcon
@@ -55,6 +78,8 @@ export default function SearchBox() {
                         }}
                     />
                 </IconButton>
+                <Debounce value={searchValue} closeBox={closeBox} />
+
                 <IconButton
                     onClick={() => setShowSearchBox(false)}
                     sx={{

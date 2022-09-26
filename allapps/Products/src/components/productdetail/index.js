@@ -21,6 +21,8 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useTheme } from "@mui/material/styles";
 import { useMediaQuery } from "@mui/material";
+import { contextAuthStore } from "../../utils/store";
+import { useHistory } from "react-router-dom";
 
 function SlideTransition(props) {
     return <Slide direction="down" {...props} />;
@@ -41,6 +43,31 @@ const ProductDetailInfoWrapper = styled(Box)(() => ({
 export default function ProductDetail({ open, onClose, product }) {
     const theme = useTheme();
     const matches = useMediaQuery(theme.breakpoints.down("md"));
+    const [value, setValue] = React.useState(1);
+
+    const getQuantity = (e) => {
+        setValue(e);
+    };
+
+    const { state, dispatch } = contextAuthStore();
+    const history = useHistory();
+
+    const addToCart = () => {
+        const existItem = state.cart.cartItems.find(
+            (x) => x._id === product._id
+        );
+        const quantity = existItem ? existItem.quantity + 1 : value;
+        if (product?.countInStock < quantity) {
+            alert("Product out of Stock.");
+            return;
+        }
+
+        dispatch({
+            type: "ADD_TO_CART",
+            payload: { ...product, quantity },
+        });
+        history.push("/cart");
+    };
 
     return (
         <Dialog
@@ -87,8 +114,10 @@ export default function ProductDetail({ open, onClose, product }) {
                             display="flex"
                             alignItems="center"
                             justifyContent="space-between">
-                            <IncDec />
-                            <Button variant="contained">Add to Cart</Button>
+                            <IncDec getQuantity={getQuantity} />
+                            <Button variant="contained" onClick={addToCart}>
+                                Add to Cart
+                            </Button>
                         </Box>
                         <Box
                             display="flex"

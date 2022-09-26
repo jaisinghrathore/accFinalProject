@@ -19,6 +19,7 @@ import {
     TableCell,
     TableBody,
 } from "@mui/material";
+import axios from "axios";
 
 function reducer(state, action) {
     switch (action.type) {
@@ -61,7 +62,7 @@ const Orders = () => {
                 );
                 dispatch({ type: "FETCH_SUCCESS", payload: data });
             } catch (err) {
-                dispatch({ type: "FETCH_FAIL", payload: getError(err) });
+                dispatch({ type: "FETCH_FAIL", payload: err });
             }
         }
         fetchData();
@@ -71,7 +72,7 @@ const Orders = () => {
         const a = confirm("Confirm");
         if (a) {
             try {
-                const { data } = await axios.put(
+                const { data } = await axios.post(
                     `http://localhost:8000/admin/orders/delivered`,
                     { id },
                     {
@@ -177,7 +178,7 @@ const Orders = () => {
                                                                     textDecoration:
                                                                         "none",
                                                                 }}
-                                                                to={`admin//order/${order._id}`}>
+                                                                to={`/orderplaced/${order._id}`}>
                                                                 <Button variant="contained">
                                                                     Details
                                                                 </Button>

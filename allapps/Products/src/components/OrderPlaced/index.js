@@ -12,23 +12,69 @@ import {
 } from "@mui/material";
 import BasicTableNotEditable from "../../utils/BasicTableNotEditable";
 import { useHistory } from "react-router-dom";
+import CircularProgress from "@mui/material/CircularProgress";
+import axios from "axios";
+
+function reducer(state, action) {
+    switch (action.type) {
+        case "FETCH_REQUEST":
+            return { ...state, loading: true, error: "" };
+        case "FETCH_SUCCESS":
+            return {
+                ...state,
+                loading: false,
+                order: action.payload,
+                error: "",
+            };
+        case "FETCH_ERROR":
+            return { ...state, loading: false, error: action.payload };
+        default:
+            return state;
+    }
+}
 
 function OrderPlaced() {
     const { state } = contextAuthStore();
     const router = useHistory();
-    const { GlazierToken: userInfo, order } = state;
+    const { GlazierToken: userInfo } = state;
+    const [{ loading, order, error }, dispatch] = React.useReducer(reducer, {
+        loading: true,
+        order: {},
+        error: "",
+    });
+
+    const orderId = router.location.pathname.split("/")[2];
+
+    // React.useEffect(() => {
+    //     if (!userInfo) {
+    //         router.push("/auth");
+    //     }
+    // }, [state.GlazierToken]);
 
     React.useEffect(() => {
-        if (!userInfo) {
-            router.push("/auth");
-        }
-    }, [state.GlazierToken]);
+        const fetchOrder = async () => {
+            try {
+                dispatch({ type: "FETCH_REQUEST" });
+                const { data } = await axios.get(
+                    `http://localhost:8000/admin/get_order/${orderId}`,
+                    {
+                        headers: { authorization: `Bearer ${userInfo.token}` },
+                    }
+                );
+                dispatch({ type: "FETCH_SUCCESS", payload: data });
+            } catch (err) {
+                console.log(err);
+                dispatch({ type: "FETCH_ERROR", payload: err });
+            }
+        };
+        fetchOrder();
+    }, []);
 
-    React.useEffect(() => {
-        if (order.length == 0) {
-            router.push("/products");
-        }
-    }, [order]);
+    // React.useEffect(() => {
+    //     if (order.length == 0) {
+    //         router.push("/products");
+    //     }
+    // }, [order]);
 
     const totalPrice = state.order.reduce(
         (acc, caa) => acc + caa.price * caa.quantity,
@@ -38,140 +84,165 @@ function OrderPlaced() {
     return (
         <>
             <Container>
-                <Grid container spacing={2} sx={{ padding: "40px" }}>
-                    <Grid item xs={12} sm={12} md={8}>
-                        <Typography
-                            style={{ textDecoration: "underline" }}
-                            component="h5"
-                            variant="h5"
-                            mb={2}>
-                            Order ID: {Math.floor(Math.random() * 2003)}
-                        </Typography>
-                        {/*Shipping*/}
-                        <Card
-                            variant="outlined"
-                            style={{ marginBottom: "20px" }}>
-                            <List>
-                                <ListItem>
-                                    <Typography
-                                        variant="body1"
-                                        sx={{ fontWeight: "bold" }}>
-                                        Shipping Address
-                                    </Typography>
-                                </ListItem>
+                {loading ? (
+                    <CircularProgress />
+                ) : error ? (
+                    <Typography>{error}</Typography>
+                ) : (
+                    <Grid container spacing={2} sx={{ padding: "40px" }}>
+                        <Grid item xs={12} sm={12} md={8}>
+                            <Typography
+                                style={{ textDecoration: "underline" }}
+                                component="h5"
+                                variant="h5"
+                                mb={2}>
+                                Order ID: {orderId}
+                            </Typography>
+                            {/*Shipping*/}
+                            <Card
+                                variant="outlined"
+                                style={{ marginBottom: "20px" }}>
+                                <List>
+                                    <ListItem>
+                                        <Typography
+                                            variant="body1"
+                                            sx={{ fontWeight: "bold" }}>
+                                            Shipping Address
+                                        </Typography>
+                                    </ListItem>
 
-                                <ListItem>
-                                    {state.cart.shippingAddress.fullName},{" "}
-                                    {state.cart.shippingAddress.address},{" "}
-                                    {state.cart.shippingAddress.city},{" "}
-                                    {state.cart.shippingAddress.postalcode},{" "}
-                                    {state.cart.shippingAddress.landmark}.
-                                </ListItem>
+                                    <ListItem>
+                                        {order.shippingAddress.fullName},{" "}
+                                        {order.shippingAddress.address},{" "}
+                                        {order.shippingAddress.city},{" "}
+                                        {order.shippingAddress.postalcode},{" "}
+                                        {order.shippingAddress.landmark}.
+                                    </ListItem>
 
-                                <ListItem>Status: not delivered</ListItem>
-                            </List>
-                        </Card>
+                                    <ListItem>
+                                        Status:{" "}
+                                        {order.isDelivered
+                                            ? `delivered at ${order.deliveredAt}`
+                                            : "not delivered"}
+                                    </ListItem>
+                                </List>
+                            </Card>
 
-                        {/*Payment Method*/}
-                        <Card
-                            variant="outlined"
-                            style={{ marginBottom: "20px" }}>
-                            <List>
-                                <ListItem>
-                                    <Typography
-                                        variant="body1"
-                                        sx={{ fontWeight: "bold" }}>
-                                        Payment Method
-                                    </Typography>
-                                </ListItem>
+                            {/*Payment Method*/}
+                            <Card
+                                variant="outlined"
+                                style={{ marginBottom: "20px" }}>
+                                <List>
+                                    <ListItem>
+                                        <Typography
+                                            variant="body1"
+                                            sx={{ fontWeight: "bold" }}>
+                                            Payment Method
+                                        </Typography>
+                                    </ListItem>
 
-                                <ListItem>Cash</ListItem>
+                                    <ListItem>{order.paymentMethod}</ListItem>
 
-                                <ListItem>Status: not paid</ListItem>
-                            </List>
-                        </Card>
+                                    <ListItem>
+                                        Status:{" "}
+                                        {order.isPaid
+                                            ? `delivered at ${order.paidAt}`
+                                            : "not paid"}
+                                    </ListItem>
+                                </List>
+                            </Card>
 
-                        {/* This is table */}
-                        <Card
-                            variant="outlined"
-                            style={{ marginBottom: "20px" }}>
-                            <BasicTableNotEditable />
-                        </Card>
+                            {/* This is table */}
+                            <Card
+                                variant="outlined"
+                                style={{ marginBottom: "20px" }}>
+                                <BasicTableNotEditable order={order} />
+                            </Card>
+                        </Grid>
+                        <Grid item sm={12} md={4}>
+                            {/* small box */}
+                            <Card
+                                variant="outlined"
+                                sx={{ marginLeft: { sm: "30px" } }}>
+                                <List>
+                                    <ListItem>
+                                        <Grid container>
+                                            <Grid item xs={12}>
+                                                <Typography
+                                                    variant="h4"
+                                                    style={{
+                                                        margin: "14px 0 20px 0",
+                                                    }}>
+                                                    Order Summary
+                                                </Typography>
+                                            </Grid>
+                                            <Grid item xs={12}>
+                                                <Typography
+                                                    style={{
+                                                        marginTop: "4px",
+                                                    }}>
+                                                    {" "}
+                                                    Items:{" "}
+                                                    <span
+                                                        style={{
+                                                            float: "right",
+                                                        }}>
+                                                        ${order.totalPrice}
+                                                    </span>
+                                                </Typography>
+                                            </Grid>
+                                            <Grid item xs={12}>
+                                                <Typography
+                                                    style={{
+                                                        marginTop: "4px",
+                                                    }}>
+                                                    {" "}
+                                                    Tax:{" "}
+                                                    <span
+                                                        style={{
+                                                            float: "right",
+                                                        }}>
+                                                        ${order.taxPrice}
+                                                    </span>
+                                                </Typography>
+                                            </Grid>
+                                            <Grid item xs={12}>
+                                                <Typography
+                                                    style={{
+                                                        marginTop: "4px",
+                                                    }}>
+                                                    {" "}
+                                                    Shipping:{" "}
+                                                    <span
+                                                        style={{
+                                                            float: "right",
+                                                        }}>
+                                                        ${order.shippingPrice}
+                                                    </span>
+                                                </Typography>
+                                            </Grid>
+                                            <Grid item xs={12}>
+                                                <Typography
+                                                    style={{
+                                                        marginTop: "4px",
+                                                    }}>
+                                                    {" "}
+                                                    Total:{" "}
+                                                    <span
+                                                        style={{
+                                                            float: "right",
+                                                        }}>
+                                                        ${order.totalPrice + 40}
+                                                    </span>
+                                                </Typography>
+                                            </Grid>
+                                        </Grid>
+                                    </ListItem>
+                                </List>
+                            </Card>
+                        </Grid>
                     </Grid>
-                    <Grid item sm={12} md={4}>
-                        {/* small box */}
-                        <Card
-                            variant="outlined"
-                            sx={{ marginLeft: { sm: "30px" } }}>
-                            <List>
-                                <ListItem>
-                                    <Grid container>
-                                        <Grid item xs={12}>
-                                            <Typography
-                                                variant="h5"
-                                                style={{
-                                                    margin: "4px 0 20px 0",
-                                                    fontWeight: "bold",
-                                                }}>
-                                                Order Summary
-                                            </Typography>
-                                        </Grid>
-                                        <Grid item xs={12}>
-                                            <Typography
-                                                style={{
-                                                    marginTop: "4px",
-                                                }}>
-                                                {" "}
-                                                Items:{" "}
-                                                <span
-                                                    style={{
-                                                        float: "right",
-                                                    }}>
-                                                    ${totalPrice}
-                                                </span>
-                                            </Typography>
-                                        </Grid>
-                                        <Grid item xs={12}>
-                                            <Typography
-                                                style={{
-                                                    marginTop: "4px",
-                                                }}></Typography>
-                                        </Grid>
-                                        <Grid item xs={12}>
-                                            <Typography
-                                                style={{
-                                                    marginTop: "4px",
-                                                }}>
-                                                Shipping:
-                                                <span
-                                                    style={{
-                                                        float: "right",
-                                                    }}>
-                                                    $40
-                                                </span>
-                                            </Typography>
-                                        </Grid>
-                                        <Grid item xs={12}>
-                                            <Typography
-                                                style={{
-                                                    marginTop: "4px",
-                                                }}>
-                                                {" "}
-                                                Total:{" "}
-                                                <span
-                                                    style={{
-                                                        float: "right",
-                                                    }}>
-                                                    ${totalPrice + 40}
-                                                </span>
-                                            </Typography>
-                                        </Grid>
-                                    </Grid>
-                                </ListItem>
-                            </List>
-                        </Card>
-                    </Grid>
-                </Grid>
+                )}
             </Container>
         </>
     );
