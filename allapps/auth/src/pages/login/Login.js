@@ -45,7 +45,7 @@ const Login = () => {
     }, [inpVal]);
 
     React.useState(() => {
-        if (state?.GlazierToken._id) {
+        if (state?.GlazierToken?._id) {
             router.push("/");
         }
     }, [state?.GlazierToken]);
