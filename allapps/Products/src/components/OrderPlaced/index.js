@@ -46,7 +46,7 @@ function OrderPlaced() {
     const orderId = router.location.pathname.split("/")[2];
 
     React.useEffect(() => {
-        if (!GlazierToken?.id) {
+        if (!GlazierToken?._id) {
             router.push("/auth");
         }
     }, [state.GlazierToken]);
